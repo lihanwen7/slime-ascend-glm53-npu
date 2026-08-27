@@ -1,0 +1,14 @@
+# [npu-compat] megatron_utils/__init__.py 顶部按 is_npu() 条件 import megatron_adaptor，让 NPU 适配在 deep_ep 等导入前完成注册。详见 patches/MANIFEST.toml
+--- a/slime/backends/megatron_utils/__init__.py
++++ b/slime/backends/megatron_utils/__init__.py
+@@ -2,6 +2,10 @@
+ 
+ import torch
+ 
++from slime.utils.common import is_npu
++if is_npu():
++    import megatron_adaptor
++
+ try:
+     import deep_ep
+     from torch_memory_saver import torch_memory_saver

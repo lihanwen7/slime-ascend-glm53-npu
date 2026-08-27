@@ -1,0 +1,120 @@
+# slime-ascend 补丁清单
+#
+# 补丁分类：
+# - npu-compat/       NPU硬件差异性适配（永久性）
+# - upstream-fixes/   上游bug的临时workaround（预期上游修复后删除）
+# - features/         NPU侧新增能力
+# - third_party/      依赖组件补丁（git am 应用到各自仓库，不在此登记）
+#
+# 每个 patch 的 summary 说明其用途与存在原因；upstream 字段记录临时补丁的
+# 上游跟踪信息，上游修复后应删除对应补丁。
+
+upstream_version = "v0.3.0"
+upstream_commit = "bf14dc21f950"
+
+# NPU 硬件兼容性补丁
+[[patches]]
+category = "npu-compat"
+description = "NPU 设备适配：环境变量、资源分配、设备标识等"
+permanent = true
+
+[[patches.files]]
+file = "command_utils.patch"
+summary = "集群命令生成 NPU 适配：ray start 注册 NPU 自定义资源、注入 ASCEND/HCCL 环境变量、Megatron-LM 路径改 /workspace、新增 execute_train_npu()（含 NPU 进程清理与 HCCL 端口设置）"
+
+[[patches.files]]
+file = "megatron_utils_actor.patch"
+summary = "megatron actor.py 顶部按 is_npu() 条件 import megatron_adaptor，保证训练 actor 进程 NPU 适配层先生效"
+
+[[patches.files]]
+file = "megatron_utils_init.patch"
+summary = "megatron_utils/__init__.py 顶部按 is_npu() 条件 import megatron_adaptor，让 NPU 适配在 deep_ep 等导入前完成注册"
+
+[[patches.files]]
+file = "memory_utils.patch"
+summary = "显存清理/查询按平台分流：NPU 用 torch.npu.empty_cache/mem_get_info，避免调用不存在的 CUDA 接口"
+
+[[patches.files]]
+file = "ray_actor_group.patch"
+summary = "Ray actor 资源声明去掉 num_gpus，改用 resources={\"NPU\": n} 自定义资源调度（Ray 原生 GPU 调度不识别昇腾 NPU）"
+
+[[patches.files]]
+file = "ray_placement_group.patch"
+summary = "placement group bundle 从 {\"GPU\":1} 改为 {\"NPU\":1}；InfoActor 经 get_accelerator_ids()[\"NPU\"] 获取设备号"
+
+[[patches.files]]
+file = "ray_tran_actor.patch"
+summary = "train_actor 的 get_local_gpu_id() 改读 ASCEND_RT_VISIBLE_DEVICES，设备 ID 从 get_accelerator_ids()[\"NPU\"] 取"
+
+[[patches.files]]
+file = "rollout.patch"
+summary = "rollout 引擎（SGLangEngine actor）与 rollout_engine_lock 的 Ray 资源声明从 num_gpus 改为 NPU 自定义资源，与 placement group 的 NPU bundle 匹配"
+
+[[patches.files]]
+file = "sglang_engine.patch"
+summary = "sglang 引擎物理卡号→本地卡号映射改读 ASCEND_RT_VISIBLE_DEVICES，保证 NPU 下绑定正确设备"
+
+[[patches.files]]
+file = "tools_convert_hf_to_torch_dist.patch"
+summary = "HF→torch_dist 权重转换脚本 NPU 适配：条件 import megatron_adaptor、torch.npu.set_device、分布式后端用 hccl（hccl 不支持 device_id 参数）"
+
+[[patches.files]]
+file = "train.patch"
+summary = "train.py 入口顶层按 is_npu() 条件 import megatron_adaptor，使 NPU 适配在 Megatron 导入前完成注册"
+
+[[patches.files]]
+file = "train_async.patch"
+summary = "train_async.py 入口顶层按 is_npu() 条件 import megatron_adaptor，同 train.patch"
+
+[[patches.files]]
+file = "update_weight_common.patch"
+summary = "NPU workaround：Megatron grouped MoE 的 linear_fc1 参数 all-gather 强制 partition_dim=0，规避 NPU 侧权重分片布局差异导致的拼接错误（含 TODO）"
+
+[[patches.files]]
+file = "update_weight_from_distributed.patch"
+summary = "训练→推理权重同步的通信组后端按平台选择 hccl/nccl（NPU 上 nccl 不可用必须走 HCCL）"
+
+[[patches.files]]
+file = "utils_common.patch"
+summary = "新增 slime/utils/common.py 提供 is_npu()，是所有 npu-compat 补丁的公共依赖，须最先应用"
+
+# 上游 bug 修复
+[[patches]]
+category = "upstream-fixes"
+description = "临时修复上游问题，预期上游修复后删除；upstream 字段记录跟踪信息"
+permanent = false
+
+[[patches.files]]
+file = "cp_utils.patch"
+summary = "cp_utils.py 中 log_prob 为 None 时打印警告并用零张量兜底，避免下游 len(log_prob) 断言崩溃"
+upstream = "slime 上游某路径（疑 TIS/重算 log_prob）传入 None 的 bug；零填充会污染数据，待上游修复后删除"
+
+[[patches.files]]
+file = "megatron_bridge_utils.patch"
+summary = "megatron-bridge workaround：过滤 build_conversion_tasks 返回的 None task（消费端访问 None.megatron_module 会崩溃）；另含 critic 价值头（LinearForLastLayer）与 HF lm_head 形状不匹配时跳过加载的特判"
+upstream = "megatron-bridge dev_rl @ 35b4ebfc；None task 修复上游合入后删除过滤部分"
+
+[[patches.files]]
+file = "megatron_utils_init.patch"
+summary = "Qwen3VL 上游 API 兼容：包装 mbridge/megatron-bridge 的 Qwen3VLModel.forward 吞掉 loss_mask，Qwen3VLTextRotaryEmbedding.forward 吞掉 packed_seq_params"
+upstream = "上游两套实现 forward 签名与 slime 调用约定对齐后删除"
+
+[[patches.files]]
+file = "model_provider.patch"
+summary = "Qwen3VL MoE critic 支持（MoE spec 组 Qwen3VLModel、critic 替换 output_layer 为 LinearForLastLayer）；训练参数（MoE/recompute/freeze 等）系统透传给 megatron-bridge provider；注册 LinearForLastLayer 权重映射类型"
+upstream = "critic/value-head 支持若上游 slime 合入则删除"
+
+[[patches.files]]
+file = "qwen3_5.patch"
+summary = "Qwen3.5（VL 视觉塔 + 线性注意力 Gated DeltaNet）megatron→HF 权重转换支持：qkv/gate_up 重排、in_proj 拆分、conv1d 重排、out_norm gamma 偏移等"
+upstream = "上游 slime 支持 Qwen3.5 转换后删除"
+
+# NPU 侧新增能力
+[[patches]]
+category = "features"
+description = "NPU 侧新增能力，长期维护，可能未来贡献回上游"
+permanent = true
+
+[[patches.files]]
+file = "coding-agent-rl-docker-sandbox.patch"
+summary = "coding_agent_rl 示例新增 DockerSandbox（SSH 连远程 Docker daemon 起容器，drop-in 替换 E2B 云沙箱，适配内网环境）；支持 DOCKER_SANDBOX/MOCK_SANDBOX 环境变量切换实现"
