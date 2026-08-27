@@ -1,0 +1,154 @@
+# [npu-compat] 集群命令生成 NPU 适配：ray start 注册 NPU 资源、注入 ASCEND/HCCL 环境变量、Megatron-LM 路径改 /workspace、新增 execute_train_npu()。详见 patches/MANIFEST.toml
+--- a/slime/utils/external_utils/command_utils.py
++++ b/slime/utils/external_utils/command_utils.py
+@@ -52,7 +52,7 @@
+ 
+     exec_command(
+         f"source {repo_base_dir}/scripts/models/{megatron_model_type}.sh && "
+-        f"PYTHONPATH=/root/Megatron-LM "
++        f"PYTHONPATH=/workspace/Megatron-LM:$PYTHONPATH "
+         f"torchrun "
+         f"--nproc-per-node {num_gpus_per_node} "
+         f"{multinode_args}"
+@@ -128,8 +128,7 @@
+         exec_command(
+             # will prevent ray from buffering stdout/stderr
+             f"export PYTHONUNBUFFERED=1 && "
+-            f"ray start --head --node-ip-address {master_addr} --num-gpus {num_gpus_per_node} --disable-usage-stats"
+-        )
++            f"ray start --head --node-ip-address {master_addr} --num-gpus {num_gpus_per_node} --resources='{{\"NPU\": {num_gpus_per_node}}}' --disable-usage-stats"        )
+ 
+     if (f := before_ray_job_submit) is not None:
+         f()
+@@ -137,9 +136,122 @@
+     runtime_env_json = json.dumps(
+         {
+             "env_vars": {
+-                "PYTHONPATH": "/root/Megatron-LM/",
++                "PYTHONPATH": f"/workspace/Megatron-LM:/workspace/Megatron-Bridge/src:{os.environ.get('PYTHONPATH', '')}",
++                "SLIME_ENABLE_PROFILING": "False",
++                "RAY_EXPERIMENTAL_NOSET_ASCEND_RT_VISIBLE_DEVICES": "1",
++                "RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO": "0",
++                "ASCEND_RT_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7",
++                "RAY_EXPERIMENTAL_NOSET_CUDA_VISIBLE_DEVICES": "1",
++                "CUDA_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7",
+                 "CUDA_DEVICE_MAX_CONNECTIONS": "1",
+                 "NCCL_NVLS_ENABLE": str(int(check_has_nvlink())),
++                "no_proxy": f"127.0.0.1,{master_addr}", 
++                # This is needed by megatron / torch distributed in multi-node setup
++                "MASTER_ADDR": master_addr,
++                "PYTHONHASHSEED": "1234",
++                "HCCL_DETERMINISTIC": "True",
++                "LCCL_DETERMINISTIC": "1",
++                "CLOSE_MATMUL_K_SHIFT": "1",
++                "ATB_LLM_LCOC_ENABLE": "0",
++                **(
++                    {
++                        "CUDA_ENABLE_COREDUMP_ON_EXCEPTION": "1",
++                        "CUDA_COREDUMP_SHOW_PROGRESS": "1",
++                        "CUDA_COREDUMP_GENERATION_FLAGS": "skip_nonrelocated_elf_images,skip_global_memory,skip_shared_memory,skip_local_memory,skip_constbank_memory",
++                        "CUDA_COREDUMP_FILE": "/root/shared_data/cuda_coredump_%h.%p.%t",
++                    }
++                    if config.cuda_core_dump
++                    else {}
++                ),
++                **extra_env_vars,
++                **_parse_extra_env_vars(config.extra_env_vars),
++            }
++        }
++    )
++
++    if get_bool_env_var("SLIME_SCRIPT_ENABLE_RAY_SUBMIT", "1"):
++        cmd_megatron_model_source = (
++            f'source "{repo_base_dir}/scripts/models/{megatron_model_type}.sh" && '
++            if megatron_model_type is not None
++            else ""
++        )
++        exec_command(
++            f"export no_proxy=127.0.0.1 && export PYTHONUNBUFFERED=1 && "
++            f"{cmd_megatron_model_source}"
++            f'ray job submit --address="http://127.0.0.1:8265" '
++            f"--runtime-env-json='{runtime_env_json}' "
++            f"-- python3 {train_script} "
++            f"{'${MODEL_ARGS[@]}' if megatron_model_type is not None else ''} "
++            f"{train_args}"
++        )
++
++
++def execute_train_npu(
++    train_args: str,
++    megatron_model_type: str | None,
++    train_script: str = "train.py",
++    before_ray_job_submit=None,
++    extra_env_vars=None,
++    config: ExecuteTrainConfig | None = None,
++):
++    if extra_env_vars is None:
++        extra_env_vars = {}
++    if config is None:
++        config = ExecuteTrainConfig()
++    external_ray = get_bool_env_var("SLIME_SCRIPT_EXTERNAL_RAY")
++    master_addr = os.environ.get("MASTER_ADDR", "127.0.0.1")
++
++    train_backend_fsdp = "--train-backend fsdp" in train_args
++    assert train_backend_fsdp == (megatron_model_type is None)
++
++    exec_command(
++        "pkill -9 sglang; "
++        "sleep 3; "
++        f"{'' if external_ray else 'ray stop --force; '}"
++        f"{'' if external_ray else 'pkill -9 ray; '}"
++        # cannot be run in CI, o/w kill the parent script
++        # "pkill -9 python; "
++        "pkill -9 slime; "
++        "sleep 3; "
++        f"{'' if external_ray else 'pkill -9 ray; '}"
++        # "pkill -9 python; "
++        "pkill -9 slime; "
++        "pkill -9 redis; "
++        "true; "
++    )
++
++    if not external_ray:
++        exec_command(
++            # will prevent ray from buffering stdout/stderr
++            f"export PYTHONUNBUFFERED=1 && "
++            f"ray start --head --node-ip-address {master_addr} --disable-usage-stats"
++        )
++
++    f = before_ray_job_submit
++    if f is not None: 
++        f()
++
++    runtime_env_json = json.dumps(
++        {
++            "env_vars": {
++                "CUDA_DEVICE_MAX_CONNECTIONS": "1",
++                "RAY_EXPERIMENTAL_NOSET_ASCEND_RT_VISIBLE_DEVICES": "1",
++                "RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO": "0",
++                "ASCEND_RT_VISIBLE_DEVICES": os.environ.get("ASCEND_RT_VISIBLE_DEVICES", "0,1,2,3,4,5,6,7"),
++                "RAY_EXPERIMENTAL_NOSET_CUDA_VISIBLE_DEVICES": "1",
++                "CUDA_VISIBLE_DEVICES": os.environ.get("CUDA_VISIBLE_DEVICES", "0,1,2,3,4,5,6,7"),
++                "HYDRA_FULL_ERROR": "1",
++                "HCCL_HOST_SOCKET_PORT_RANGE": "60000-60050",
++                "HCCL_NPU_SOCKET_PORT_RANGE": "61000-61050", 
++                # If setting this in FSDP, the computation communication overlapping may have issues
++                **(
++                    {}
++                    if train_backend_fsdp
++                    else {
++                        "CUDA_DEVICE_MAX_CONNECTIONS": "1",
++                    }
++                ),
++                "NCCL_NVLS_ENABLE": str(int(check_has_nvlink())),
+                 "no_proxy": f"127.0.0.1,{master_addr}",
+                 # This is needed by megatron / torch distributed in multi-node setup
+                 "MASTER_ADDR": master_addr,
+@@ -168,6 +280,7 @@
+         exec_command(
+             f"export no_proxy=127.0.0.1 && export PYTHONUNBUFFERED=1 && "
+             f"{cmd_megatron_model_source}"
++            f"sleep 60 && "
+             f'ray job submit --address="http://127.0.0.1:8265" '
+             f"--runtime-env-json='{runtime_env_json}' "
+             f"-- python3 {train_script} "

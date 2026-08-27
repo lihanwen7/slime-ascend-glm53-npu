@@ -1,0 +1,105 @@
+# [upstream-fixes] megatron-bridge workaround：过滤 build_conversion_tasks 的 None task；critic 价值头与 HF lm_head 形状不匹配时跳过加载。详见 patches/MANIFEST.toml
+diff --git a/slime/utils/megatron_bridge_utils.py b/slime/utils/megatron_bridge_utils.py
+index c87fb5b7..8a213b29 100644
+--- a/slime/utils/megatron_bridge_utils.py
++++ b/slime/utils/megatron_bridge_utils.py
+@@ -1,10 +1,16 @@
+ from contextlib import contextmanager
++from typing import List, Mapping, TypeVar, Union
++
++import torch
+ 
+ try:
+     from megatron.core.utils import unwrap_model
+ except ImportError:
+     unwrap_model = None
+ 
++HFPreTrained = TypeVar("HFPreTrained")
++MegatronModel = TypeVar("MegatronModel")
++
+ 
+ def patch_hf_config_for_megatron_bridge(hf_config):
+     configs = []
+@@ -52,3 +58,82 @@ def patch_megatron_model(model):
+     finally:
+         if attribute_was_added:
+             delattr(model_config, "share_embeddings_and_output_weights")
++
++
++def patch_build_conversion_tasks_none_filter():
++    """Patch MegatronModelBridge.build_conversion_tasks to filter out None tasks.
++
++    The original implementation (megatron-bridge dev_rl @ 35b4ebfc) returns
++    List[None | WeightConversionTask]: entries without a mapping stay None, but
++    its consumers only check `task.megatron_module is None` and crash with
++    AttributeError on None tasks. Consolidate to List[WeightConversionTask].
++    Remove this once megatron-bridge fixes it upstream.
++    """
++    try:
++        from megatron.bridge.models.conversion.model_bridge import MegatronModelBridge
++    except ImportError:
++        return
++
++    original_build_conversion_tasks = MegatronModelBridge.build_conversion_tasks
++
++    def _patched_build_conversion_tasks(self, hf_pretrained, megatron_model):
++        tasks = original_build_conversion_tasks(self, hf_pretrained, megatron_model)
++        if tasks is None:
++            return []
++        return [task for task in tasks if task is not None]
++
++    MegatronModelBridge.build_conversion_tasks = _patched_build_conversion_tasks
++
++
++patch_build_conversion_tasks_none_filter()
++
++
++def load_weights_hf_to_megatron_wrapper(
++    self, hf_pretrained: HFPreTrained, megatron_model: Union[MegatronModel, List[MegatronModel]]
++) -> List[MegatronModel]:
++    """Load HuggingFace weights into Megatron models.
++
++    Copy of MegatronModelBridge.load_weights_hf_to_megatron (megatron-bridge
++    dev_rl @ 35b4ebfc) with one slime-specific change: the critic replaces the
++    output layer with a fresh LinearForLastLayer value head, whose shape does
++    not match the HF lm_head weight, so loading that parameter is skipped
++    instead of raising a shape-mismatch error.
++    """
++    if not isinstance(megatron_model, list):
++        megatron_model = [megatron_model]
++
++    hf_to_megatron_tasks = self.build_conversion_tasks(hf_pretrained, megatron_model)
++    hf_state_dict: Mapping[str, torch.Tensor] = hf_pretrained.state if hasattr(hf_pretrained, "state") else {}
++
++    description = f"Loading from {hf_pretrained.model_name_or_path}"
++    for task in self._with_progress_tracking(hf_to_megatron_tasks, description):
++        # None means megatron module not on current rank, skip if this task is not going to happen
++        if task.megatron_module is None:
++            continue
++        # 1) Fetch source tensor(s) from HF state dict
++        hf_weights = self.maybe_modify_loaded_hf_weight(task.mapping.hf_param, hf_state_dict)
++
++        # 2) Delegate conversion & distribution to the bridge
++        converted_weights = task.mapping.hf_to_megatron(hf_weights, task.megatron_module)
++
++        # 3) Copy into Megatron param if this rank received a shard
++        if converted_weights is not None:
++            if task.param_weight is None:
++                raise ValueError("param_weight is required for HF->Megatron conversion")
++
++            if converted_weights.shape != task.param_weight.shape and task.param_name == 'language_model.output_layer.weight':
++                continue
++
++            # Check shape compatibility before copying
++            if converted_weights.shape != task.param_weight.shape:
++                raise ValueError(
++                    f"Shape mismatch for megatron param {task.mapping.megatron_param}:\n"
++                    f"  Expected shape: {task.param_weight.shape}\n"
++                    f"  Got shape: {converted_weights.shape}\n"
++                    f"  Bridge type: {type(task.mapping).__name__}\n"
++                    f"  HF mapping: {task.mapping.hf_param}"
++                )
++            task.param_weight.data.copy_(converted_weights)
++
++    self._broadcast_shared_embeddings(megatron_model)
++    return megatron_model
