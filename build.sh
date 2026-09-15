@@ -11,6 +11,14 @@ set -euo pipefail
 REPO_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 SLIME_DIR="${REPO_ROOT}/slime"
 PATCHES_DIR="${REPO_ROOT}/patches"
+UPSTREAM_COMMIT=$(python3 - "${PATCHES_DIR}/MANIFEST.toml" <<'PY'
+import sys
+import tomllib
+from pathlib import Path
+
+print(tomllib.loads(Path(sys.argv[1]).read_text())["upstream_commit"])
+PY
+)
 
 # 颜色输出
 RED='\033[0;31m'
@@ -123,7 +131,7 @@ if [ "$SKIP_SUBMODULE" = false ]; then
             git clean -xfd
             git checkout .
             git fetch origin
-            git checkout "$(git rev-parse HEAD)"  # 确保在正确的 commit
+            git checkout --detach "${UPSTREAM_COMMIT}"
             cd "${REPO_ROOT}"
         else
             echo "  [DRY-RUN] git fetch && checkout pinned commit"
@@ -137,7 +145,8 @@ else
     echo ""
 fi
 
-# 应用补丁的辅助函数
+# 按 MANIFEST.toml 的声明顺序应用补丁。Slime 补丁均由 git format-patch
+# 生成，并通过 git am 保留提交边界和作者信息。
 apply_patch_category() {
     local category=$1
     local patch_dir="${PATCHES_DIR}/${category}"
@@ -150,24 +159,36 @@ apply_patch_category() {
     log_info "应用 ${category} 补丁..."
     local patch_count=0
     local failed_patches=()
+    local patch_files=()
 
-    for patch in "${patch_dir}"/*.patch; do
+    mapfile -t patch_files < <(
+        python3 - "${PATCHES_DIR}/MANIFEST.toml" "${category}" <<'PY'
+import sys
+import tomllib
+from pathlib import Path
+
+manifest_path = Path(sys.argv[1])
+category = sys.argv[2]
+manifest = tomllib.loads(manifest_path.read_text())
+for item in manifest["patches"]:
+    if item["target"] == "slime" and item["category"] == category:
+        print(manifest_path.parent / category / item["file"])
+PY
+    )
+
+    for patch in "${patch_files[@]}"; do
         if [ -f "$patch" ]; then
             local patch_name=$(basename "$patch")
 
             if [ "$DRY_RUN" = false ]; then
                 cd "${SLIME_DIR}"
-                if patch -p1 --forward --no-backup-if-mismatch < "$patch" > /dev/null 2>&1; then
+                if git am "$patch" > /dev/null 2>&1; then
                     echo "  ✓ ${patch_name}"
                     ((patch_count++))
                 else
-                    # 尝试检查是否已应用
-                    if patch -p1 --reverse --dry-run < "$patch" > /dev/null 2>&1; then
-                        log_warn "  已应用: ${patch_name}"
-                    else
-                        log_error "  失败: ${patch_name}"
-                        failed_patches+=("${patch_name}")
-                    fi
+                    git am --abort > /dev/null 2>&1 || true
+                    log_error "  失败: ${patch_name}"
+                    failed_patches+=("${patch_name}")
                 fi
                 cd "${REPO_ROOT}"
             else
@@ -176,6 +197,11 @@ apply_patch_category() {
             fi
         fi
     done
+
+    if [ ${#patch_files[@]} -eq 0 ]; then
+        log_warn "MANIFEST 中没有 ${category} 补丁"
+        return 0
+    fi
 
     if [ ${#failed_patches[@]} -gt 0 ]; then
         log_error "以下补丁应用失败:"
@@ -229,19 +255,6 @@ else
 fi
 log_success "构建验证通过"
 echo ""
-
-# 步骤 5: 生成构建信息
-if [ "$DRY_RUN" = false ]; then
-    cat > "${SLIME_DIR}/.build_info" << EOF
-# slime-ascend 构建信息
-build_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-upstream_commit=$(cd "${SLIME_DIR}" && git rev-parse HEAD)
-upstream_version=$(cd "${SLIME_DIR}" && git describe --tags --always)
-patches_npu_compat=$(ls -1 "${PATCHES_DIR}/npu-compat"/*.patch 2>/dev/null | wc -l | tr -d ' ')
-patches_upstream_fixes=$(ls -1 "${PATCHES_DIR}/upstream-fixes"/*.patch 2>/dev/null | wc -l | tr -d ' ')
-patches_features=$(ls -1 "${PATCHES_DIR}/features"/*.patch 2>/dev/null | wc -l | tr -d ' ')
-EOF
-fi
 
 echo "=========================================="
 echo "构建完成！"

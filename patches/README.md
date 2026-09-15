@@ -63,7 +63,7 @@ patches/
 
 构建脚本会：
 1. Checkout `slime` submodule 到指定 commit
-2. 按顺序应用 `npu-compat`、`upstream-fixes`、`features` 补丁（新增文件也以 new-file patch 形式管理）
+2. 按 `MANIFEST.toml` 顺序使用 `git am` 应用 `npu-compat`、`upstream-fixes`、`features` 补丁
 3. 生成可用的 slime-ascend
 
 ## 维护补丁
@@ -71,16 +71,15 @@ patches/
 ### 添加新补丁
 
 ```bash
-# 1. 在 slime 工作区中修改文件
+# 1. 在 slime 工作区中修改并提交文件
 cd slime
 # ... 修改代码 ...
-git diff > ../patches/npu-compat/new_feature.patch
+git add <files>
+git commit -s -m "[Ascend] describe the change"
+git format-patch -1 HEAD --stdout > ../patches/npu-compat/new_feature.patch
 
 # 2. 更新 MANIFEST.toml
-# 在对应分类下追加 [[patches.files]] 条目：file + summary（临时补丁加 upstream 跟踪字段）
-
-# 3. 在 patch 文件头部加一行注释，格式：
-# # [分类] 用途说明。详见 patches/MANIFEST.toml
+# 追加 [[patches]] 条目并登记稳定 ID、issue、base commit 和 SHA256
 ```
 
 ### 更新现有补丁
@@ -89,12 +88,14 @@ git diff > ../patches/npu-compat/new_feature.patch
 # 1. 应用所有补丁到 slime
 ./build.sh
 
-# 2. 修改文件
+# 2. 修改原补丁对应的提交并提交
 cd slime
 # ... 修改代码 ...
+git add <files>
+git commit --amend
 
 # 3. 重新生成补丁
-git diff > ../patches/npu-compat/existing.patch
+git format-patch -1 HEAD --stdout > ../patches/npu-compat/existing.patch
 ```
 
 ### 同步上游
