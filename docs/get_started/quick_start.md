@@ -27,13 +27,16 @@ Python 3.11：
 | torch_npu | 2.10.0 | 2.10.0 |
 | torchvision | 0.25.0 | 0.25.0 |
 | Megatron-LM | 1dcf0dafa | 1dcf0dafa |
-| Megatron-Bridge | dev_rl | dev_rl |
+| MegatronAdaptor | f707a3b6 | f707a3b6 |
+| TransformerEngineNPU | 2b8529f9 | 2b8529f9 |
+| Megatron-Bridge | 35b4ebfc | 35b4ebfc |
 | triton-ascend | 3.2.1 | 3.2.1 |
 | mbridge | 89eb1088 | 89eb1088 |
-| SGLang | v0.5.13 | v0.5.13 |
-| sgl-kernel-npu | 2026.6.1 | 2026.6.1 |
+| SGLang | v0.5.15.post1 | v0.5.15.post1 |
+| sgl-kernel-npu | 2026.6.2 | 2026.6.2 |
+| sglang-router | 0.3.2 | 0.3.2 |
 | nvidia-modelopt | >=0.37.0 | >=0.37.0 |
-| slime (submodule) | v0.3.0 | v0.3.0 |
+| slime (submodule) | v0.3.2 | v0.3.2 |
 
 > 组件版本以 [scripts/quick_install.sh](../../scripts/quick_install.sh) 和 [patches/MANIFEST.toml](../../patches/MANIFEST.toml) 为准；
 > Python 3.12 + CANN 9.1.0 组合暂未在本仓验证。
@@ -104,14 +107,14 @@ bash scripts/quick_install.sh
 
 **安装脚本会自动完成以下工作**：
 
-1. 从源码安装 SGLang（v0.5.13，NPU 配置）
+1. 从源码安装 SGLang（v0.5.15.post1，NPU 配置）
 2. 安装 torch、torch_npu、torchvision 等基础依赖包
 3. 安装 sgl-kernel-npu（按 `NPU_DEVICE` 区分 A2/A3）
 4. 安装 mbridge、Megatron-Bridge、Megatron-LM
 5. 安装 MegatronAdaptor 和 TransformerEngineNPU
 6. 安装 triton_ascend
-7. 对 sglang / Megatron-LM / Megatron-Bridge / mbridge / TE-NPU 应用 `patches/third_party/` 补丁（`git am`）
-8. 执行 `bash build.sh`：重置 slime submodule 并应用全部 slime 补丁
+7. 对 sglang / Megatron-LM / Megatron-Bridge / mbridge 应用 `patches/third_party/` 补丁（`git am`）；TENPU `2b8529f...` 已吸收原补丁
+8. 执行 `bash build.sh`：将 slime submodule 重置到官方 v0.3.2 commit，并用 `git am` 应用全部 Slime 补丁
 
 > 注意：请确保使用本仓提供的 quick_install.sh 并从上表指定的分支/commit 源码安装。
 
@@ -121,7 +124,7 @@ bash scripts/quick_install.sh
 
 ```bash
 bash build.sh                  # 重置 submodule + 按序应用全部补丁 + 验证
-bash build.sh --skip-submodule # 离线/快速重建：跳过重置，幂等重打补丁
+bash build.sh --skip-submodule # 仅当 submodule 已在官方基线且 worktree clean 时跳过更新
 bash build.sh --clean          # 删除 slime/ 全量重建
 ```
 
@@ -158,6 +161,6 @@ cd slime && pip install -e .
 
 5. **补丁应用失败 / 离线构建**
    - 网络不可达时 `build.sh` 的 `git fetch` 会失败，可改用 `bash build.sh --skip-submodule`
-   - 补丁冲突时进入 `slime/` 检查 `*.rej` 文件，解决后重新生成对应 patch
+   - 补丁冲突时进入 `slime/` 使用 `git am --show-current-patch=diff` 检查，随后 `git am --abort`，修复后重新生成对应 format-patch
 
 更多常见问题请参考 slime [Q&A](https://github.com/THUDM/slime/blob/main/docs/zh/get_started/qa.md)

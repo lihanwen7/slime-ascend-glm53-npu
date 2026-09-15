@@ -69,7 +69,7 @@ cd slime && pip install -e .
 | 选项 | 说明 |
 |---|---|
 | `--clean` | 删除 slime/ 目录后全量重建 |
-| `--skip-submodule` | 跳过 submodule 重置，快速重打补丁（幂等，已应用的补丁自动跳过；也可用于离线构建） |
+| `--skip-submodule` | 跳过 submodule 更新；仅用于已处于官方基线且 worktree clean 的离线回放 |
 | `--dry-run` | 只打印将执行的操作 |
 
 完整的 NPU 环境搭建（Docker / 一键安装脚本 quick_install.sh）与常见问题排查，

@@ -1,4 +1,4 @@
-From df32a9aaa9c757fe1115323ff798d04d1f28d303 Mon Sep 17 00:00:00 2001
+From 246831866e524c3b2d75f3892ea1e6155ed321f2 Mon Sep 17 00:00:00 2001
 From: gcw_8jFUVqc5 <caowuke@huawei.com>
 Date: Thu, 4 Jun 2026 21:53:35 +0800
 Subject: [PATCH] =?UTF-8?q?=E4=BF=AE=E6=94=B9megatron-Bridge?=
@@ -39,5 +39,5 @@ index 247c84be..e8d1d773 100644
              seq_length=hf_config.max_position_embeddings,
              fp16=(self.dtype_from_hf(hf_config, default=torch.float32) == torch.float16),
 -- 
-2.54.0.windows.1
+2.34.1
 

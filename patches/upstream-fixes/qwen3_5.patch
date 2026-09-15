@@ -1,44 +1,32 @@
-# [upstream-fixes] Qwen3.5（VL + 线性注意力 Gated DeltaNet）megatron→HF 权重转换支持；上游 slime 合入后删除。详见 patches/MANIFEST.toml
+From e37386c614127fcda2eca533ae5ece2aa8736a65 Mon Sep 17 00:00:00 2001
+From: slime-ascend <slime-ascend@local>
+Date: Fri, 4 Sep 2026 07:57:49 +0000
+Subject: [PATCH] [Ascend] restore Qwen3.5 Megatron-to-HF conversion
+
+---
+ .../megatron_utils/megatron_to_hf/qwen3_5.py  | 452 +++++++++++-------
+ 1 file changed, 284 insertions(+), 168 deletions(-)
+
+diff --git a/slime/backends/megatron_utils/megatron_to_hf/qwen3_5.py b/slime/backends/megatron_utils/megatron_to_hf/qwen3_5.py
+index eea89275..886eb84f 100644
 --- a/slime/backends/megatron_utils/megatron_to_hf/qwen3_5.py
 +++ b/slime/backends/megatron_utils/megatron_to_hf/qwen3_5.py
-@@ -2,60 +2,258 @@
+@@ -2,63 +2,258 @@ import re
  
  import torch
  
 +_MEGATRON_PREFIX = "module.module."
- 
--def _convert_mtp_layer(args, name, param, layer_idx):
--    """Convert MTP layer parameters from Megatron to HuggingFace format."""
--    if "enorm.weight" in name:
--        return [("mtp.pre_fc_norm_embedding.weight", param)]
--    if "hnorm.weight" in name:
--        return [("mtp.pre_fc_norm_hidden.weight", param)]
--    if "final_layernorm.weight" in name:
--        return [("mtp.norm.weight", param)]
--    if "eh_proj.weight" in name:
--        return [("mtp.fc.weight", param)]
++
 +_VISION_HIDDEN_SIZE = 1152
 +_VISION_HEAD_DIM = 72
 +_VISION_NUM_HEADS = _VISION_HIDDEN_SIZE // _VISION_HEAD_DIM
- 
--    if "transformer_layer" in name:
--        proxy_name = name.replace(f"mtp.layers.{layer_idx}.transformer_layer", f"decoder.layers.{layer_idx}")
--        mapped_params = convert_qwen3_5_to_hf(args, proxy_name, param)
++
 +_VISION_PREFIX_MAPPINGS = [
 +    (f"{_MEGATRON_PREFIX}vision_model.patch_embed.proj.", "model.visual.patch_embed.proj."),
 +    (f"{_MEGATRON_PREFIX}vision_model.merger.patch_norm.", "model.visual.merger.norm."),
 +    (f"{_MEGATRON_PREFIX}vision_model.merger.linear_fc2.", "model.visual.merger.linear_fc2."),
 +]
- 
--        final_params = []
--        for hf_name, tensor in mapped_params:
--            target_prefix = f"mtp.layers.{layer_idx}"
--            if f"model.language_model.layers.{layer_idx}" in hf_name:
--                new_hf_name = hf_name.replace(f"model.language_model.layers.{layer_idx}", target_prefix)
--                final_params.append((new_hf_name, tensor))
--            else:
--                final_params.append((hf_name, tensor))
--        return final_params
++
 +_VISION_DECODER_SIMPLE_MAPPINGS = {
 +    "self_attention.linear_proj.weight": "attn.proj.weight",
 +    "self_attention.linear_proj.bias": "attn.proj.bias",
@@ -49,7 +37,7 @@
 +    "mlp.linear_fc1.layer_norm_weight": "norm2.weight",
 +    "mlp.linear_fc1.layer_norm_bias": "norm2.bias",
 +}
- 
++
 +_TOP_LEVEL_MAPPINGS = {
 +    f"{_MEGATRON_PREFIX}embedding.word_embeddings.weight": "model.language_model.embed_tokens.weight",
 +    f"{_MEGATRON_PREFIX}output_layer.weight": "lm_head.weight",
@@ -93,7 +81,31 @@
 +def _reorder_gate_up(param: torch.Tensor) -> torch.Tensor:
 +    q = param.shape[0] // 4
 +    return torch.cat([param[0:q], param[2 * q:3 * q], param[q:2 * q], param[3 * q:4 * q]], dim=0)
-+
+ 
+-def _convert_mtp_layer(args, name, param, layer_idx):
+-    """Convert MTP layer parameters from Megatron to HuggingFace format."""
+-    if "enorm.weight" in name:
+-        return [("mtp.pre_fc_norm_embedding.weight", param)]
+-    if "hnorm.weight" in name:
+-        return [("mtp.pre_fc_norm_hidden.weight", param)]
+-    if "final_layernorm.weight" in name:
+-        return [("mtp.norm.weight", param)]
+-    if "eh_proj.weight" in name:
+-        return [("mtp.fc.weight", param)]
+-
+-    if "transformer_layer" in name:
+-        proxy_name = name.replace(f"mtp.layers.{layer_idx}.transformer_layer", f"decoder.layers.{layer_idx}")
+-        mapped_params = convert_qwen3_5_to_hf(args, proxy_name, param)
+-
+-        final_params = []
+-        for hf_name, tensor in mapped_params:
+-            target_prefix = f"mtp.layers.{layer_idx}"
+-            if f"model.language_model.layers.{layer_idx}" in hf_name:
+-                new_hf_name = hf_name.replace(f"model.language_model.layers.{layer_idx}", target_prefix)
+-                final_params.append((new_hf_name, tensor))
+-            else:
+-                final_params.append((hf_name, tensor))
+-        return final_params
 +
 +def _convert_vision_param(name, param):
 +    if name == f"{_MEGATRON_PREFIX}vision_model.pos_embed.weight":
@@ -139,7 +151,7 @@
 +    if name.startswith(f"{_MEGATRON_PREFIX}vision_model."):
 +        suffix = name[len(f"{_MEGATRON_PREFIX}vision_model."):]
 +        return [(f"model.visual.{suffix}", param)]
-+
+ 
      return None
  
  
@@ -267,11 +279,13 @@
 -    Qwen3.5 uses model.language_model.layers prefix and has separate
 -    in_proj_qkv, in_proj_z, in_proj_b, in_proj_a for linear attention.
 -    """
--    # Handle MTP layers
+-    if name.startswith("module.module.language_model."):
+-        name = "module.module." + name.removeprefix("module.module.language_model.")
 +    vision_params = _convert_vision_param(name, param)
 +    if vision_params is not None:
 +        return vision_params
-+
+ 
+-    # Handle MTP layers
      if "mtp.layers" in name:
          parts = name.split(".")
          try:
@@ -296,7 +310,7 @@
  
      try:
          head_dim = args.kv_channels if args.kv_channels is not None else args.hidden_size // args.num_attention_heads
-@@ -63,131 +261,52 @@
+@@ -66,131 +261,52 @@ def convert_qwen3_5_to_hf(args, name, param):
          head_dim = args.hidden_size // args.num_attention_heads
      value_num_per_group = args.num_attention_heads // args.num_query_groups
  
@@ -305,18 +319,13 @@
 -    if match:
 -        layer_idx, rest = match.groups()
 -        prefix = f"model.language_model.layers.{layer_idx}"
-+    match = re.match(r"module\.module\.decoder\.layers\.(\d+)\.(.+)", name)
-+    if not match:
-+        raise ValueError(f"Unknown parameter name: {name} with weight shape: {param.shape}")
- 
+-
 -        # experts (grouped gemm - fused format)
 -        if rest == "mlp.experts.linear_fc1":
 -            return [(f"{prefix}.mlp.experts.gate_up_proj", param)]
 -        elif rest == "mlp.experts.linear_fc2":
 -            return [(f"{prefix}.mlp.experts.down_proj", param)]
-+    layer_idx, rest = match.groups()
-+    prefix = f"model.language_model.layers.{layer_idx}"
- 
+-
 -        # experts (ungrouped - individual expert format)
 -        expert_pattern = r"mlp.experts\.(.+)\.weight(\d+)"
 -        match = re.match(expert_pattern, rest)
@@ -332,9 +341,7 @@
 -                return [(f"{prefix}.mlp.experts.{expert_idx}.down_proj.weight", param)]
 -            else:
 -                raise ValueError(f"Unknown expert parameter name: {name}")
-+    if rest in _DECODER_SIMPLE_MAPPINGS:
-+        return [(f"{prefix}.{_DECODER_SIMPLE_MAPPINGS[rest]}", param)]
- 
+-
 -        # shared expert
 -        shared_expert_pattern = r"mlp.shared_experts\.(.+)"
 -        match = re.match(shared_expert_pattern, rest)
@@ -352,11 +359,7 @@
 -                return [(f"{prefix}.mlp.shared_expert_gate.weight", param)]
 -            else:
 -                raise ValueError(f"Unknown shared expert parameter name: {name}")
-+    if rest == "mlp.experts.linear_fc1":
-+        return [(f"{prefix}.mlp.experts.gate_up_proj", param)]
-+    if rest == "mlp.experts.linear_fc2":
-+        return [(f"{prefix}.mlp.experts.down_proj", param)]
- 
+-
 -        if rest == "self_attention.linear_proj.weight":
 -            return [(f"{prefix}.self_attn.o_proj.weight", param)]
 -        elif rest == "self_attention.linear_qkv.weight":
@@ -409,13 +412,7 @@
 -            return [(f"{prefix}.mlp.gate.weight", param)]
 -        elif rest == "mlp.router.expert_bias":
 -            return [(f"{prefix}.mlp.gate.e_score_correction_bias", param)]
-+    if rest == "self_attention.in_proj.weight":
-+        return _split_in_proj_weight(param, prefix)
-+    if rest == "self_attention.conv1d.weight":
-+        return _reshape_conv1d_weight(param, prefix)
-+    if rest == "self_attention.out_norm.weight":
-+        return [(f"{prefix}.linear_attn.norm.weight", param.float() + 1)]
- 
+-
 -        # qk norm
 -        elif rest == "self_attention.q_layernorm.weight":
 -            return [(f"{prefix}.self_attn.q_norm.weight", param)]
@@ -443,11 +440,34 @@
 -        ]:
 -            rest = rest[len("self_attention.") :]
 -            return [(f"{prefix}.{rest}", param)]
+-
+-    raise ValueError(f"Unknown parameter name: {name}")
++    match = re.match(r"module\.module\.decoder\.layers\.(\d+)\.(.+)", name)
++    if not match:
++        raise ValueError(f"Unknown parameter name: {name} with weight shape: {param.shape}")
++
++    layer_idx, rest = match.groups()
++    prefix = f"model.language_model.layers.{layer_idx}"
++
++    if rest in _DECODER_SIMPLE_MAPPINGS:
++        return [(f"{prefix}.{_DECODER_SIMPLE_MAPPINGS[rest]}", param)]
++
++    if rest == "mlp.experts.linear_fc1":
++        return [(f"{prefix}.mlp.experts.gate_up_proj", param)]
++    if rest == "mlp.experts.linear_fc2":
++        return [(f"{prefix}.mlp.experts.down_proj", param)]
++
++    if rest == "self_attention.in_proj.weight":
++        return _split_in_proj_weight(param, prefix)
++    if rest == "self_attention.conv1d.weight":
++        return _reshape_conv1d_weight(param, prefix)
++    if rest == "self_attention.out_norm.weight":
++        return [(f"{prefix}.linear_attn.norm.weight", param.float() + 1)]
++
 +    expert_result = _convert_expert_param(rest, param, prefix)
 +    if expert_result is not None:
 +        return expert_result
- 
--    raise ValueError(f"Unknown parameter name: {name}")
++
 +    shared_expert_result = _convert_shared_expert_param(rest, param, prefix)
 +    if shared_expert_result is not None:
 +        return shared_expert_result
@@ -471,3 +491,6 @@
 +        return [(f"{prefix}.linear_attn.{sub_key}", param.float())]
 +
 +    raise ValueError(f"Unknown parameter name: {name} with weight shape: {param.shape}")
+-- 
+2.34.1
+

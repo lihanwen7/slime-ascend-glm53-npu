@@ -1,12 +1,20 @@
-# [features] coding_agent_rl 示例新增 DockerSandbox（SSH 连远程 Docker daemon，drop-in 替换 E2B），支持 DOCKER_SANDBOX/MOCK_SANDBOX 切换。详见 patches/MANIFEST.toml
+From c9ca8be69980579a049e06217c6816a311d08d28 Mon Sep 17 00:00:00 2001
+From: slime-ascend <slime-ascend@local>
+Date: Fri, 4 Sep 2026 08:09:04 +0000
+Subject: [PATCH] [Ascend] add coding-agent Docker sandbox
+
+---
+ examples/coding_agent_rl/docker_sandbox.py | 280 +++++++++++++++++++++
+ 1 file changed, 280 insertions(+)
+ create mode 100644 examples/coding_agent_rl/docker_sandbox.py
+
 diff --git a/examples/coding_agent_rl/docker_sandbox.py b/examples/coding_agent_rl/docker_sandbox.py
 new file mode 100644
-index 00000000..d79cd0ab
+index 00000000..2886521b
 --- /dev/null
 +++ b/examples/coding_agent_rl/docker_sandbox.py
-@@ -0,0 +1,281 @@
+@@ -0,0 +1,280 @@
 +"""Remote Docker sandbox — drop-in replacement for E2BSandbox.
-+
 +Connects to a remote Docker daemon over SSH (no TCP port needed).
 +Implements the same interface as slime.agent.sandbox.Sandbox so
 +sandbox.py needs zero changes other than the import.
@@ -286,82 +294,6 @@ index 00000000..d79cd0ab
 +if __name__ == "__main__":
 +    logging.basicConfig(level=logging.INFO)
 +    asyncio.run(_smoke_test())
-\ No newline at end of file
-diff --git a/examples/coding_agent_rl/generate.py b/examples/coding_agent_rl/generate.py
-index 1345fc7f..52d990ca 100644
---- a/examples/coding_agent_rl/generate.py
-+++ b/examples/coding_agent_rl/generate.py
-@@ -58,7 +58,10 @@ from slime.utils.misc import SingletonMeta
- from slime.utils.processing_utils import load_tokenizer
- from slime.utils.types import Sample
- 
--from . import sandbox
-+if os.environ.get("MOCK_SANDBOX", False):
-+    from . import sandbox_mock as sandbox  
-+else:
-+    from . import sandbox
- from .aiohttp_threaded import run_app_in_thread
- 
- logger = logging.getLogger(__name__)
-diff --git a/examples/coding_agent_rl/sandbox.py b/examples/coding_agent_rl/sandbox.py
-index 4cff30f2..9590c036 100644
---- a/examples/coding_agent_rl/sandbox.py
-+++ b/examples/coding_agent_rl/sandbox.py
-@@ -20,8 +20,11 @@ from collections.abc import AsyncIterator
- from contextlib import asynccontextmanager
- from pathlib import Path
- 
--from slime.agent.sandbox import E2BSandbox, Sandbox
--
-+if os.environ.get("DOCKER_SANDBOX", True):
-+    from .docker_sandbox import DockerSandbox as E2BSandbox, Sandbox
-+else:
-+    from slime.agent.sandbox import E2BSandbox, Sandbox
-+    
- 
- logger = logging.getLogger(__name__)
- 
-@@ -135,6 +138,7 @@ async def install_node22(sb: Sandbox, host_tarball: Path) -> None:
- async def install_claude_code(sb: Sandbox, host_tarball: Path) -> None:
-     await sb.write_file("/tmp/claude-code.tgz", host_tarball)
-     await sb.exec(
-+        "npm config set strict-ssl false && "
-         "npm install -g --prefix=/usr/local --no-audit --no-fund /tmp/claude-code.tgz "
-         "&& ls -la /usr/local/bin/claude && /usr/local/bin/claude --version",
-         user="root",
-@@ -199,6 +203,18 @@ async def run_claude_code(
-         problem_statement or "",
-         user="agent",
-     )
-+    # Commit the baseline (base_commit + test_patch + PROBLEM_STATEMENT.md)
-+    # so that the model's subsequent git diff excludes test_patch changes.
-+    # Without this, the eval sandbox applies pre_commands again and then
-+    # tries to re-apply the diff which already contains the test_patch,
-+    # causing git apply to fail.
-+    await sb.exec(
-+        f"cd {workdir} && git -c user.name='cagent' -c user.email='cagent@local' "
-+        f"add -A && "
-+        f"git -c user.name='cagent' -c user.email='cagent@local' "
-+        f"commit -m 'baseline with test patch' --allow-empty",
-+        user="agent", timeout=120, check=False,
-+    )
-     return await _spawn_claude_code(
-         sb,
-         workdir=workdir,
-@@ -283,9 +299,14 @@ async def _spawn_claude_code(
- async def git_diff(sb: Sandbox, workdir: str) -> str:
-     cmd = (
-         f"cd {workdir} && git add -N . && "
--        f"git diff -- . ':(exclude)PROBLEM_STATEMENT.md' "
-+        f"git diff -- . "
-+        f"':(exclude)PROBLEM_STATEMENT.md' "
-         f"':(exclude)claude_code_trajectory.jsonl' "
--        f"':(exclude).cagent_done' ':(exclude).cagent_run.sh'"
-+        f"':(exclude).cagent_done' ':(exclude).cagent_run.sh' "
-+        f"':(exclude)*/tests/*' "
-+        f"':(exclude)*/test_*.py' "
-+        f"':(exclude)*_test.py' "
-+        f"':(exclude)*/testing/*' "
-     )
-     _, out, _ = await sb.exec(cmd, user="agent", timeout=120)
-     return out
+-- 
+2.34.1
+

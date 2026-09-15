@@ -1,0 +1,88 @@
+From 420e9932da4f9441d94f74d164e8dc8bd2e62e9b Mon Sep 17 00:00:00 2001
+From: cjy0x <chenjunyi10@huawei.com>
+Date: Tue, 17 Mar 2026 13:09:42 +0800
+Subject: [PATCH] ascend megatron-bridge patch for slime v0.3.2
+
+Signed-off-by: cjy0x <chenjunyi10@huawei.com>
+---
+ src/megatron/bridge/models/gpt_provider.py            |  5 ++---
+ .../qwen_vl/modelling_qwen3_vl/transformer_block.py   | 11 +++++++----
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/src/megatron/bridge/models/gpt_provider.py b/src/megatron/bridge/models/gpt_provider.py
+index 4cddf32c..73a1537b 100644
+--- a/src/megatron/bridge/models/gpt_provider.py
++++ b/src/megatron/bridge/models/gpt_provider.py
+@@ -19,8 +19,6 @@ from dataclasses import dataclass, field
+ from functools import partial
+ from typing import TYPE_CHECKING, Any, Callable, Literal, Optional, Union
+ 
+-import modelopt.torch.distill as mtd
+-import modelopt.torch.distill.plugins.megatron as mtd_mcore
+ import torch
+ from megatron.core import parallel_state
+ from megatron.core.models.gpt import GPTModel as MCoreGPTModel
+@@ -338,7 +336,8 @@ class GPTDistillationProvider(GPTModelProvider):
+ 
+         student_model = super().provide(pre_process, post_process, vp_stage)
+         teacher_model = self.teacher.provide(pre_process, post_process, vp_stage)
+-
++        import modelopt.torch.distill as mtd
++        import modelopt.torch.distill.plugins.megatron as mtd_mcore
+         kd_cfg = mtd_mcore.setup_distillation_config(self.kd_config, student_model.config, teacher_model.config)
+         modelopt_cfg = {
+             "teacher_model": teacher_model,
+diff --git a/src/megatron/bridge/models/qwen_vl/modelling_qwen3_vl/transformer_block.py b/src/megatron/bridge/models/qwen_vl/modelling_qwen3_vl/transformer_block.py
+index 3f64d8d9..b44c51be 100644
+--- a/src/megatron/bridge/models/qwen_vl/modelling_qwen3_vl/transformer_block.py
++++ b/src/megatron/bridge/models/qwen_vl/modelling_qwen3_vl/transformer_block.py
+@@ -71,8 +71,9 @@ class Qwen3VLTransformerBlock(TransformerBlock):
+                 context_mask,
+                 rotary_pos_emb,
+                 visual_pos_masks,
+-                deepstack_visual_embeds,
++                *deepstack_visual_embeds_args,
+             ):
++                deepstack_visual_embeds = list(deepstack_visual_embeds_args) if deepstack_visual_embeds_args else None
+                 for index in range(start, end):
+                     layer = self._get_layer(index)
+                     inner_fp8_context = (
+@@ -104,6 +105,8 @@ class Qwen3VLTransformerBlock(TransformerBlock):
+ 
+             return custom_forward
+ 
++        deepstack_visual_embeds_tuple = tuple(deepstack_visual_embeds) if deepstack_visual_embeds else ()
++
+         def checkpoint_handler(forward_func):
+             """Determines whether to use the `te_checkpoint` or `tensor_parallel.checkpoint`"""
+             if self.config.fp8:
+@@ -118,7 +121,7 @@ class Qwen3VLTransformerBlock(TransformerBlock):
+                     context_mask,
+                     rotary_pos_emb,
+                     visual_pos_masks,
+-                    deepstack_visual_embeds,
++                    *deepstack_visual_embeds_tuple,
+                 )
+             else:
+                 return tensor_parallel.checkpoint(
+@@ -130,7 +133,7 @@ class Qwen3VLTransformerBlock(TransformerBlock):
+                     context_mask,
+                     rotary_pos_emb,
+                     visual_pos_masks,
+-                    deepstack_visual_embeds,
++                    *deepstack_visual_embeds_tuple,
+                 )
+ 
+         if self.config.recompute_method == "uniform":
+@@ -169,7 +172,7 @@ class Qwen3VLTransformerBlock(TransformerBlock):
+                         context_mask,
+                         rotary_pos_emb,
+                         visual_pos_masks,
+-                        deepstack_visual_embeds,
++                        *deepstack_visual_embeds_tuple,
+                     )
+         else:
+             raise ValueError("Invalid activation recompute method.")
+-- 
+2.34.1
+
