@@ -1,10 +1,10 @@
-FROM swr.cn-south-1.myhuaweicloud.com/ascendhub/cann:9.0.0-a3-ubuntu22.04-py3.11
+FROM quay.io/ascend/cann:9.1.0-a3-ubuntu22.04-py3.12
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
-ARG SLIME_ASCEND_REPO=https://gitcode.com/gcw_8jFUVqc5/slime-ascend.git
+ARG SLIME_ASCEND_REPO=https://gitcode.com/Ascend/slime-ascend.git
 ARG SLIME_ASCEND_REF=v0.3.2
 ENV http_proxy=$HTTP_PROXY
 ENV https_proxy=$HTTPS_PROXY
@@ -13,24 +13,23 @@ ENV HTTPS_PROXY=$HTTPS_PROXY
 ENV GIT_SSL_NO_VERIFY=true
 
 ARG MEGATRON_COMMIT=1dcf0dafa
-ARG CANN_VERSION=9.0.0
+ARG CANN_VERSION=9.1.0
 ARG SGLANG_COMMIT=0.5.15.post1
 ARG SGLANG_BASE_COMMIT=0b3bb0cbe31873994c9f989fddfe2f87ca839fdd
 ARG SGLANG_ROUTER_PACKAGE=sglang-router==0.3.2
-ARG SGL_KERNEL_NPU_VERSION=2026.6.2
-ARG SGL_KERNEL_NPU_WHEEL_VERSION=2026.6.1
+ARG SGL_KERNEL_NPU_VERSION=20260821
 ARG SGL_KERNEL_NPU_FIX_COMMIT=9765e27532b8f854717eba1d3fb9a0bb97a0c887
-ARG MEMFABRIC_HYBRID_VERSION=1.0.8
+ARG MEMFABRIC_HYBRID_VERSION=1.1.4
 ARG MBRIDGE_COMMIT=89eb10887887bc74853f89a4de258c0702932a1c
-ARG MEGATRON_ADAPTOR_COMMIT=f707a3b6eb9981532c3419c08ea40a8bb5962af5
+ARG MEGATRON_ADAPTOR_COMMIT=f710cd34ed54eca6b7b7ae1b51a19840d15aedbc
 ARG MEGATRON_BRIDGE_COMMIT=35b4ebfc486fb15dcc0273ceea804c3606be948a
-ARG TRANSFORMER_ENGINE_NPU_COMMIT=2b8529f94c3fd10497bf772bdc5b448b7ed4659a
+ARG TRANSFORMER_ENGINE_NPU_COMMIT=4d773944
 ARG MegatronAdaptor_COMMIT=${MEGATRON_ADAPTOR_COMMIT}
 ARG TransformerEngineNPU_COMMIT=${TRANSFORMER_ENGINE_NPU_COMMIT}
 # 默认交付 A3 aarch64；x86_64 构建可覆盖 SGL_KERNEL_NPU_ARCH。
 ARG SGL_KERNEL_NPU_ARCH=aarch64
 ARG SGL_KERNEL_NPU_DEVICE=a3
-ARG SGL_KERNEL_NPU_URL=https://github.com/sgl-project/sgl-kernel-npu/releases/download/${SGL_KERNEL_NPU_VERSION}/sgl-kernel-npu-${SGL_KERNEL_NPU_VERSION}-torch2.10.0-py311-cann${CANN_VERSION}-${SGL_KERNEL_NPU_DEVICE}-${SGL_KERNEL_NPU_ARCH}.zip
+ARG SGL_KERNEL_NPU_URL=https://github.com/sgl-project/sgl-kernel-npu/releases/download/${SGL_KERNEL_NPU_VERSION}/sgl-kernel-npu-${SGL_KERNEL_NPU_VERSION}-torch2.10.0-py312-cann${CANN_VERSION}-${SGL_KERNEL_NPU_DEVICE}-${SGL_KERNEL_NPU_ARCH}.zip
 
 WORKDIR /workspace
 
@@ -57,11 +56,19 @@ RUN ARCH=$(uname -m) && \
 RUN git config --global user.email "temp@example.com" && \
     git config --global user.name "temp"
 
-# 【核心前置】从私仓获取本仓（含 patches/ 与 build.sh）。
+# 【核心前置】从官方 v0.3.2 分支获取本仓（含 patches/ 与 build.sh）。
 RUN git clone --branch "${SLIME_ASCEND_REF}" --depth 1 "${SLIME_ASCEND_REPO}" /workspace/slime-ascend && \
     cd /workspace/slime-ascend && \
     git submodule update --init --recursive && \
     test "$(git symbolic-ref --short HEAD)" = "${SLIME_ASCEND_REF}"
+
+# PyTorch/torchvision 固定使用 CPU wheel，NPU 能力由 torch_npu 提供。
+# This must precede Slime and SGLang because their transitive dependencies may
+# also depend on torch.
+RUN pip install \
+        torch==2.10.0 \
+        torchvision==0.25.0 && \
+    pip install torch_npu==2.10.0.post4
 
 RUN cd /workspace/slime-ascend/slime && pip install -e .
 
@@ -76,11 +83,7 @@ RUN git clone https://github.com/sgl-project/sglang.git /workspace/sglang && \
 
 # 2. 安装基础包
 RUN pip install \
-        torch==2.10.0 \
-        torch_npu==2.10.0.post4 \
-        torchvision==0.25.0 \
         pybind11==3.0.3 \
-        triton_ascend==3.2.1 \
         transformers==5.3.0 \
         memfabric-hybrid==${MEMFABRIC_HYBRID_VERSION} && \
     pip install "${SGLANG_ROUTER_PACKAGE}" --force-reinstall && \
@@ -126,9 +129,9 @@ RUN cd /workspace && \
     git clone https://gitcode.com/Ascend/MegatronAdaptor.git && \
     cd MegatronAdaptor/ && git checkout ${MegatronAdaptor_COMMIT} && \
     pip install -e . && cd .. && \
-    git clone https://gitcode.com/Ascend/TransformerEngineNPU.git&&  \
+    git clone https://gitcode.com/Ascend/TransformerEngineNPU.git && \
     cd TransformerEngineNPU/ && git checkout ${TransformerEngineNPU_COMMIT} &&  \
-    pip install -e . && cd ..
+    pip install -e . --no-build-isolation --no-deps && cd ..
 
 # 4. 收尾清理与环境变量固化
 RUN pip uninstall -y \
@@ -155,7 +158,7 @@ RUN cd /workspace/sglang && \
     cd /workspace/mbridge && \
     git am --whitespace=fix /workspace/slime-ascend/patches/third_party/mbridge/*
 
-# 6. 从官方 v0.3.2 submodule 用 git am 回放补丁后安装 Slime。
+# 6. 使用官方 v0.3.2 分支中的 build.sh 回放补丁并安装 Slime。
 RUN cd /workspace/slime-ascend && \
     git submodule update --init --recursive && \
     bash build.sh && \
