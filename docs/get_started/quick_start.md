@@ -27,8 +27,8 @@ Python 3.11：
 | torch_npu | 2.10.0 | 2.10.0 |
 | torchvision | 0.25.0 | 0.25.0 |
 | Megatron-LM | 1dcf0dafa | 1dcf0dafa |
-| MegatronAdaptor | f707a3b6 | f707a3b6 |
-| TransformerEngineNPU | 2b8529f9 | 2b8529f9 |
+| MegatronAdaptor | f710cd34 | f710cd34 |
+| TransformerEngineNPU | 4d773944 | 4d773944 |
 | Megatron-Bridge | 35b4ebfc | 35b4ebfc |
 | triton-ascend | 3.2.1 | 3.2.1 |
 | mbridge | 89eb1088 | 89eb1088 |

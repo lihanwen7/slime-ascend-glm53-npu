@@ -16,15 +16,14 @@ SGLANG_ROUTER_PACKAGE=sglang-router==0.3.2
 SGL_KERNEL_NPU_CP312_URL=https://gitcode.com/gcw_8jFUVqc5/sglang-kernel-npu-builds/releases/download/py312-cann9.0-a3/sgl-kernel-npu-torch2.10.0-py312-cann9.0-a3-aarch64.zip
 SGL_KERNEL_NPU_FIX_COMMIT=9765e27532b8f854717eba1d3fb9a0bb97a0c887
 MEMFABRIC_HYBRID_VERSION=1.0.8
-TORCH_VERSION=2.10.0
-TORCH_NPU_VERSION=2.10.0.post4
-TORCHVISION_VERSION=0.25.0
 
 MEGATRON_COMMIT=1dcf0dafa
 MBRIDGE_COMMIT=89eb10887887bc74853f89a4de258c0702932a1c
-MEGATRON_ADAPTOR_COMMIT=f707a3b6eb9981532c3419c08ea40a8bb5962af5
+# MegatronAdaptor core_r0.18.0 (paired with TransformerEngineNPU release_v2.17).
+MEGATRON_ADAPTOR_COMMIT=f710cd34ed54eca6b7b7ae1b51a19840d15aedbc
 MEGATRON_BRIDGE_COMMIT=35b4ebfc486fb15dcc0273ceea804c3606be948a
-TRANSFORMER_ENGINE_NPU_COMMIT=2b8529f94c3fd10497bf772bdc5b448b7ed4659a
+# TransformerEngineNPU release_v2.17 (official stable release).
+TRANSFORMER_ENGINE_NPU_COMMIT=4d773944
 MegatronAdaptor_COMMIT=${MEGATRON_ADAPTOR_COMMIT}
 TransformerEngineNPU_COMMIT=${TRANSFORMER_ENGINE_NPU_COMMIT}
 source ${CANN_INSTALL_PATH}/ascend-toolkit/set_env.sh
@@ -33,9 +32,10 @@ cd "${DEPS_ROOT}"
 
 echo "1. install pinned torch packages"
 pip install \
-    "torch==${TORCH_VERSION}" \
-    "torch_npu==${TORCH_NPU_VERSION}" \
-    "torchvision==${TORCHVISION_VERSION}" \
+    torch==2.10.0 \
+    torchvision==0.25.0
+pip install \
+    torch_npu==2.10.0.post4 \
     setuptools==81.0.0
 
 echo "2. install SGLang from source"
@@ -48,9 +48,9 @@ mv python/pyproject.toml python/pyproject.toml.backup
 mv python/pyproject_npu.toml python/pyproject.toml
 pip install -e "python[all_npu]" \
     --constraint <(printf '%s\n' \
-        "torch==${TORCH_VERSION}" \
-        "torch_npu==${TORCH_NPU_VERSION}" \
-        "torchvision==${TORCHVISION_VERSION}")
+        torch==2.10.0 \
+        torch_npu==2.10.0.post4 \
+        torchvision==0.25.0)
 cd ..
 
 echo "2.1 install other basic packages"
@@ -122,9 +122,9 @@ echo "5. install MA&TE"
 git clone https://gitcode.com/Ascend/MegatronAdaptor.git && \
 cd MegatronAdaptor/ && git checkout ${MegatronAdaptor_COMMIT} && \
 pip install -e . && cd ..
-git clone https://gitcode.com/Ascend/TransformerEngineNPU.git&& \
+git clone https://gitcode.com/Ascend/TransformerEngineNPU.git && \
 cd TransformerEngineNPU/ && git checkout ${TransformerEngineNPU_COMMIT} && \
-pip install -e . && cd ..
+pip install -e . --no-build-isolation --no-deps && cd ..
 
 echo "6. install triton_ascend"
 pip uninstall triton triton_ascend -y
