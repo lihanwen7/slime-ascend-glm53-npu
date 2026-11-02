@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Ascend/platform initialization only. Training parameters live in the public recipe.
+set -euo pipefail
+GLM53_RUNTIME_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+LOG_ROOT=${LOG_ROOT:-/mnt/share/l00804615/glm5.3_flash_native/cache/work/glm53-single-node}
+SLIME_ACCELERATOR=npu
+USE_LIBUV=0
+SGLANG_MEMORY_SAVER_CUDA_GRAPH=true
+GLM53_NATIVE_HC_SHIM=1
+GLM53_RAY_SIGINT_NONE_COMPAT=1
+SGLANG_NPU_DISABLE_ACL_FORMAT_WEIGHT=1
+SGLANG_NPU_HC_PRE_TAIL_GUARD=1
+TMS_HOOK_MODE=preload
+TMS_PRESERVE_PRELOAD_MODE=1
+SLIME_HOST_IP=127.0.0.1
+RAY_EXPERIMENTAL_NOSET_ASCEND_RT_VISIBLE_DEVICES=1
+RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+HCCL_OP_EXPANSION_MODE=AICPU_TS
+HCCL_BUFFSIZE=256
+DEEPEP_HCCL_BUFFSIZE=256
+HCCL_CONNECT_TIMEOUT=${HCCL_CONNECT_TIMEOUT:-300}
+HCCL_EXEC_TIMEOUT=${HCCL_EXEC_TIMEOUT:-300}
+ACL_DEVICE_SYNC_TIMEOUT=${ACL_DEVICE_SYNC_TIMEOUT:-300}
+PYTORCH_NPU_ALLOC_CONF=expandable_segments:False
+SGLANG_OPT_DEEPGEMM_HC_PRENORM=0
+SGLANG_OPT_USE_TILELANG_MHC_PRE=0
+SGLANG_OPT_USE_TILELANG_MHC_POST=0
+SGLANG_ENABLE_JIT_DEEPGEMM=False
+ASCEND_USE_FIA=1
+PYTHONDONTWRITEBYTECODE=1
+OMP_NUM_THREADS=4
+TOKENIZERS_PARALLELISM=false
+TORCH_DEVICE_BACKEND_AUTOLOAD=0
+FLA_NPU_DISABLE_PTH=1
+PYTHONNOUSERSITE=1
+ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+NATIVE_MIN_HBM_FREE_MB=80000
+NATIVE_ALLOW_WARNING_HEALTH=1
+GLM53_TMS_POST7_RELEASE_COMPAT=train-only
+DEPS_ROOT=/mnt/share/l00804615/glm5.3_flash_native
+CONDA_ENV=/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native
+SLIME_ROOT=/mnt/share/l00804615/glm5.3_flash_native/slime-ascend/slime
+CANN_ROOT=/mnt/share/l00804615/cann/9.2.0/cann-9.2.0
+ATB_SET_ENV=/mnt/share/l00804615/cann/9.2.0/nnal/atb/set_env.sh
+PHYSICAL_LOG_ROOT=/mnt/share/l00804615/glm5.3_flash_native/slime-ascend/lh_logs
+
+# Paths, interfaces, ports and explicit local overrides come from this machine.
+source "${GLM53_RUNTIME_DIR}/host.env"
+# Training-only TMS compatibility; never applied to the rollout engine.
+if [[ -z ${TRAIN_ENV_JSON+x} ]]; then
+    TRAIN_ENV_JSON="{\"HCCL_HOST_SOCKET_PORT_RANGE\":\"$TRAIN_HCCL_HOST_RANGE\",\"HCCL_NPU_SOCKET_PORT_RANGE\":\"$TRAIN_HCCL_NPU_RANGE\",\"GLM53_TMS_POST7_RELEASE_COMPAT\":\"1\"}"
+fi
+
+
+# Reuse the local launch flow; all tunable runtime values above mirror host 23.
+source "${GLM53_RUNTIME_DIR}/lh-single-node-launch.sh"

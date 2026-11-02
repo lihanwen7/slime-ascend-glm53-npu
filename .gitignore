@@ -1,1 +1,24 @@
 .upstream-sync/
+
+# Generated run outputs and local data; keep source diffs readable.
+/logs/
+/tensorboard_log/
+/dataset/
+/cache/
+/ray/
+
+# GLM5.3 generated diagnostics and local backup artifacts.
+/lh_logs/
+/extra-info/
+/scripts/archive/
+__pycache__/
+*.py[cod]
+*.bak
+*.bak-*
+*.bak.*
+
+# Legacy output paths; current launchers write to project cache/work.
+/lh_logs_rh/
+/rh_profiles/
+/lh_profiles/
+/glm53_profiles/
