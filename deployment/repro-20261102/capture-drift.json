@@ -1,0 +1,12 @@
+[
+  {
+    "repo": "sglang-glm53-npu",
+    "git_metadata_changed_after_capture": [
+      "index"
+    ],
+    "files_changed_after_capture": [
+      "python/sglang/srt/models/deepseek_v4.py"
+    ],
+    "policy": "Preserve captured source; do not revert or modify concurrent work."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "slime-ascend/slime": {},
+  "sglang": {},
+  "sgl-kernel-npu-src": {
+    "third_party/catlass": "70eda02b1271ff0e8c47db94469fae576feba97b",
+    "third_party/pto-isa": "af66b6ada43c40ad9583731883fb9bef65ac840a"
+  },
+  "Megatron-LM": {},
+  "slime-ascend": {
+    "slime": "3778dbf6d1a533ab478ecf5ddaa11449a47752b2"
+  }
+}

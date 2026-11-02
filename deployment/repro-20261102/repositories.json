@@ -22,7 +22,8 @@
         "source/origin/main-20261102": "60f5dcd761ca0024e97303dea6eba90541cdf977",
         "upstream/base-b2182cc5": "b2182cc5db977553455eb6e2e5c381eefbb35cfc"
       },
-      "commit": "32ef69595957e0676cb8c75d30590bbd7b764144"
+      "commit": "1c1ffc92e0409a3e9f0dafb3b63a30edd64d9e9c",
+      "source_gitlinks": {}
     },
     {
       "directory": "sglang",
@@ -43,7 +44,8 @@
         "source/glmx/glmx-main-a3-a5-merge-20261102": "872f1721cc6d4679f008167386ec6699a6580102",
         "upstream/base-1c76e6a0": "1c76e6a01d2e2673b14c05da75210cf8d6d94469"
       },
-      "commit": "5ff2103001af218cef81354143b84a02aea7744b"
+      "commit": "5ff2103001af218cef81354143b84a02aea7744b",
+      "source_gitlinks": {}
     },
     {
       "directory": "sgl-kernel-npu-src",
@@ -58,7 +60,11 @@
       "preserved_branches": {
         "source/base-20261102": "9765e27532b8f854717eba1d3fb9a0bb97a0c887"
       },
-      "commit": "4535529eaa3d0dd2b921763beed758aea6292bc2"
+      "commit": "03aab4d094d7f58c931dda477049fcf10ed366f8",
+      "source_gitlinks": {
+        "third_party/catlass": "70eda02b1271ff0e8c47db94469fae576feba97b",
+        "third_party/pto-isa": "af66b6ada43c40ad9583731883fb9bef65ac840a"
+      }
     },
     {
       "directory": "Megatron-LM",
@@ -73,7 +79,8 @@
       "preserved_branches": {
         "source/base-20261102": "4b4acac9a1d28ea6829c8d4f566d75698a21249d"
       },
-      "commit": "c8911233474922fcfd8d1521554f4f951b8d21ce"
+      "commit": "c064b519060678344a25c84b37570847395ba205",
+      "source_gitlinks": {}
     },
     {
       "directory": "slime-ascend",
@@ -91,7 +98,11 @@
         "source/base-20261102": "282b6eb6409a0821293400fba3ddfe52fb5f9e01",
         "source/origin/v0.3.2-20261102": "282b6eb6409a0821293400fba3ddfe52fb5f9e01"
       },
-      "commit": "96ddaf500832c648fffef797c6d7bb50f820ca1d"
+      "commit": "4983ba79fa89031052bca347b045543592987690",
+      "source_commit": "96ddaf500832c648fffef797c6d7bb50f820ca1d",
+      "source_gitlinks": {
+        "slime": "3778dbf6d1a533ab478ecf5ddaa11449a47752b2"
+      }
     }
   ],
   "root_files": {
@@ -107,5 +118,5 @@
   },
   "environment_backup": "/mnt/share/l00804615/glm5.3_flash_native/cache/archive/20261102_145645_slime_repro_snapshot",
   "excluded_change": "ops-transformer CMake header include path adjustment is not included, as requested.",
-  "self_commit_note": "The outer repo commit listed is its exact code snapshot parent; this manifest is committed immediately after it. Use this branch for the metadata commit and the listed exact commits for all other private repositories."
+  "self_commit_note": "The outer source_commit records its initial code capture. Later commits preserve omitted existing Git entries, update its Slime gitlink and recovery metadata. Use the snapshot branch for the final outer commit, and exact listed dependency commits."
 }

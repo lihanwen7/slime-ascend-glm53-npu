@@ -3977,6 +3977,9 @@
       "sha256": "5dfcec6737e53d613e5db94fc20459dd6d58282d17f01bab410868251522fc9d",
       "mode": 420,
       "size": 5539
+    },
+    ".agents/skills": {
+      "link": "../.claude/skills"
     }
   },
   "sglang": {
@@ -67126,6 +67129,12 @@
       "sha256": "91a3efee8519b5e1d6edaed829a67947f02cc457358385b10a0692196ed3df56",
       "mode": 420,
       "size": 1093615
+    },
+    ".claude/skills": {
+      "link": "../skills"
+    },
+    ".agents/skills": {
+      "link": "../skills"
     }
   },
   "slime-ascend": {

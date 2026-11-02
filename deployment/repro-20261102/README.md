@@ -4,7 +4,7 @@ This is a preservation snapshot of the current working source, not a refactor or
 
 ## Branches and commits
 
-Use `snapshot/glm53-shared-20261102` in each private repository. `repositories.json` records the exact four dependency snapshot commits and the outer repository source commit (the parent of this metadata commit). The outer `.gitmodules` points to the private Slime repository and the gitlink pins its exact snapshot commit.
+Use `snapshot/glm53-shared-20261102` in each private repository. `repositories.json` records the exact four dependency snapshot commits and the initial outer repository source commit; later commits preserve existing Git entries, update its Slime gitlink and recovery metadata. The outer `.gitmodules` points to the private Slime repository and the gitlink pins its exact snapshot commit.
 
 `source/*-20261102` branches preserve refs observed in the working repository. `source/base-20261102` preserves its original HEAD. `upstream/base-*` identifies a verified upstream baseline where available. A detached HEAD is recorded as detached; it is not relabeled as upstream main. These are the source refs observed at capture time, not a mirror of every current upstream branch. The existing Slime private main and prior snapshot branches are retained.
 
