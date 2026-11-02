@@ -1,0 +1,4 @@
+Version=9.2.0.101.235
+firmware_version=1.0
+package_version=25.1.rc3
+compatible_version_drv=[23.0.rc3,23.0.rc3.],[23.0.0,23.0.0.],[24.0,24.0.],[24.1,24.1.],[25.0,25.9.],[26.0,26.6.]

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "source-selection.tar.zst",
+    "size": 201554771,
+    "sha256": "f99eb45a907cd913adb29f2f8358a6835f06faaa6aad6d77c28ae94e24559507"
+  },
+  {
+    "file": "project-recovery.tar.zst",
+    "size": 17146993699,
+    "sha256": "123cf4c354afa02603526f127718744ed907bba15acc2f4ecc0a0171092cfac4"
+  },
+  {
+    "file": "installed-conda.tar.zst",
+    "size": 1337335266,
+    "sha256": "4a74883fa7b216fb9bcb611398e34c69b1419f7ebb78ab264317163e80d30a02"
+  },
+  {
+    "file": "installed-cann.tar.zst",
+    "size": 3883024109,
+    "sha256": "20a825a4b45e4c9771c7eecb2fa7a9f06d7cd7e30e6fbbcb6e5186e28255ee85"
+  }
+]

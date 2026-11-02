@@ -1,0 +1,7 @@
+{
+  "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/__editable__.sglang-0.5.15.post1+snapshot.6fef33d541dc.cann920.pth": "import __editable___sglang_0_5_15_post1_snapshot_6fef33d541dc_cann920_finder; __editable___sglang_0_5_15_post1_snapshot_6fef33d541dc_cann920_finder.install()",
+  "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/__editable__.slime-0.4.0.pth": "import __editable___slime_0_4_0_finder; __editable___slime_0_4_0_finder.install()",
+  "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/distutils-precedence.pth": "import os; var = 'SETUPTOOLS_USE_DISTUTILS'; enabled = os.environ.get(var, 'local') == 'local'; enabled and __import__('_distutils_hack').add_shim(); \n",
+  "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/__editable__.triton_ascend_kernels-0.1.dev148+g078da1e28.pth": "/mnt/share/l00804615/glm5.3_flash_native/triton-ascend-kernels/src\n",
+  "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/fla_npu_opp_env.pth": "import fla_npu_opp_env\n"
+}

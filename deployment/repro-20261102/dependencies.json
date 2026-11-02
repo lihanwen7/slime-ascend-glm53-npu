@@ -1,0 +1,154 @@
+[
+  {
+    "directory": "slime-ascend",
+    "head": "282b6eb6409a0821293400fba3ddfe52fb5f9e01",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/Ascend/slime-ascend.git (fetch)\norigin\thttps://gitcode.com/Ascend/slime-ascend.git (push)\n",
+    "source_status": " M .gitignore\n D scripts/quick_install.sh\n D scripts/run-glm4.7-30B-A3B-npu.sh\n D scripts/run-glm4.7-30b-A3B-npu-128k.sh\n D scripts/run-qwen3-30B-A3B-npu.sh\n D scripts/run-qwen3-8B-npu-colocate.sh\n D scripts/run-qwen3-8B-npu.sh\n D scripts/run-qwen3-8b-fully_async-npu.sh\n M slime\n",
+    "included_private_snapshot": true
+  },
+  {
+    "directory": "slime-ascend/slime",
+    "head": "60f5dcd761ca0024e97303dea6eba90541cdf977",
+    "branch": null,
+    "remotes": "origin\thttps://github.com/lihanwen7/slime-glm53-npu.git (fetch)\norigin\thttps://github.com/lihanwen7/slime-glm53-npu.git (push)\n",
+    "source_status": " M .gitignore\n M requirements.txt\n D scripts/run-glm53-main-npu.sh\n M setup.py\n M slime/backends/megatron_utils/actor.py\n M slime/backends/megatron_utils/model.py\n M slime/backends/megatron_utils/update_weight/hf_weight_iterator_direct.py\n M slime/backends/sglang_utils/sglang_engine.py\n M slime/rollout/sglang_rollout.py\n M slime/utils/data.py\n M slime/utils/processing_utils.py\n M slime/utils/tensor_backper.py\n M slime_plugins/models/glm5_next/README.md\n M slime_plugins/models/glm5_next/ascendc_kda.py\n M slime_plugins/models/glm5_next/attention.py\n M slime_plugins/models/glm5_next/glm5_next.py\n M slime_plugins/models/glm5_next/model.py\n M slime_plugins/models/glm5_next/npu_backend.py\n M slime_plugins/models/glm5_next/ops.py\n M slime_plugins/models/glm5_next/vision.py\n",
+    "included_private_snapshot": true
+  },
+  {
+    "directory": "sglang",
+    "head": "872f1721cc6d4679f008167386ec6699a6580102",
+    "branch": "glmx-lwm-0826-A5",
+    "remotes": "glmx\tgit@gitcode.com:pengxingchen0810/glmx.git (fetch)\nglmx\tgit@gitcode.com:pengxingchen0810/glmx.git (push)\norigin\thttps://github.com/sgl-project/sglang.git (fetch)\norigin\thttps://github.com/sgl-project/sglang.git (push)\n",
+    "source_status": " M python/pyproject.toml\n M python/pyproject_npu.toml\n M python/sglang/kernels/ops/layernorm/mhc.py\n M python/sglang/srt/distributed/parallel_state.py\n M python/sglang/srt/hardware_backend/npu/graph_runner/npu_cudagraph_backend.py\n M python/sglang/srt/hardware_backend/npu/moe/activation.py\n M python/sglang/srt/layers/attention/dsa/kpool_index_npu.py\n M python/sglang/srt/layers/moe/moe_runner/ascend.py\n M python/sglang/srt/layers/moe/token_dispatcher/ascend_tp.py\n M python/sglang/srt/managers/scheduler_components/weight_updater.py\n M python/sglang/srt/model_loader/weight_utils.py\n M python/sglang/srt/models/deepseek_v4.py\n M python/sglang/srt/models/glm5_next.py\n M python/sglang/srt/utils/hf_transformers/processor.py\n M python/sglang/srt/utils/torch_memory_saver_adapter.py\n",
+    "included_private_snapshot": true
+  },
+  {
+    "directory": "sgl-kernel-npu-src",
+    "head": "9765e27532b8f854717eba1d3fb9a0bb97a0c887",
+    "branch": null,
+    "remotes": "origin\thttps://github.com/sgl-project/sgl-kernel-npu.git (fetch)\norigin\thttps://github.com/sgl-project/sgl-kernel-npu.git (push)\n",
+    "source_status": " M contrib/torch_memory_saver/csrc/core.cpp\n M contrib/torch_memory_saver/csrc/core.h\n M contrib/torch_memory_saver/csrc/utils.h\n M contrib/torch_memory_saver/python/torch_memory_saver/entrypoint.py\n M contrib/torch_memory_saver/python/torch_memory_saver/hooks/mode_preload.py\n D csrc/attentions/build/build.sh\n D csrc/attentions/build/build_ascendc_ops.sh\n D csrc/attentions/build/build_ops.sh\n D csrc/attentions/build/build_plugin.sh\n D python/attentions/attentions/utils/logs/__init__.py\n D python/attentions/attentions/utils/logs/logging.py\n M python/sgl_kernel_npu/sgl_kernel_npu/mamba/causal_conv1d.py\n",
+    "included_private_snapshot": true
+  },
+  {
+    "directory": "Megatron-LM",
+    "head": "4b4acac9a1d28ea6829c8d4f566d75698a21249d",
+    "branch": null,
+    "remotes": "origin\thttps://github.com/NVIDIA/Megatron-LM.git (fetch)\norigin\thttps://github.com/NVIDIA/Megatron-LM.git (push)\n",
+    "source_status": " M megatron/core/optimizer/cpu_offloading/hybrid_optimizer.py\n",
+    "included_private_snapshot": true
+  },
+  {
+    "directory": "MegatronAdaptor",
+    "head": "f710cd34ed54eca6b7b7ae1b51a19840d15aedbc",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/Ascend/MegatronAdaptor.git (fetch)\norigin\thttps://gitcode.com/Ascend/MegatronAdaptor.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "TransformerEngineNPU",
+    "head": "fd09a928c1e2c74fa13f08dd96a9d7c68cabb48f",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/Ascend/TransformerEngineNPU.git (fetch)\norigin\thttps://gitcode.com/Ascend/TransformerEngineNPU.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "Megatron-Bridge",
+    "head": "35b4ebfc486fb15dcc0273ceea804c3606be948a",
+    "branch": null,
+    "remotes": "origin\thttps://github.com/fzyzcjy/Megatron-Bridge.git (fetch)\norigin\thttps://github.com/fzyzcjy/Megatron-Bridge.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "mbridge",
+    "head": "89eb10887887bc74853f89a4de258c0702932a1c",
+    "branch": null,
+    "remotes": "origin\thttps://github.com/ISEEKYAN/mbridge.git (fetch)\norigin\thttps://github.com/ISEEKYAN/mbridge.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "MindSpeed-Bridge",
+    "head": "f74d52a8a318c4594202ccdcf96a615b1f2d32da",
+    "branch": "master",
+    "remotes": "origin\thttps://gitcode.com/Ascend/MindSpeed-Bridge.git (fetch)\norigin\thttps://gitcode.com/Ascend/MindSpeed-Bridge.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "triton-ascend-kernels",
+    "head": "078da1e284c04e3af7feaa47fc4ee601f868f764",
+    "branch": "kda_a5",
+    "remotes": "origin\thttps://gitcode.com/shenzhaofeng/triton-ascend-kernels.git (fetch)\norigin\thttps://gitcode.com/shenzhaofeng/triton-ascend-kernels.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "flash-linear-attention-npu",
+    "head": "bde95747b4f5d259d8b1a038cb6fb9b5e450cc32",
+    "branch": "v26.10.0",
+    "remotes": "origin\thttps://github.com/flashserve/flash-linear-attention-npu (fetch)\norigin\thttps://github.com/flashserve/flash-linear-attention-npu (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "cann-custom-ops/src/cann-recipes-infer",
+    "head": "35a476c2b1ea61990380a7115ea991023aedc7d0",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/cann-recipes-infer.git (fetch)\norigin\thttps://gitcode.com/cann/cann-recipes-infer.git (push)\n",
+    "source_status": " M .gitignore\n D models/hstu/build_install_ops.sh\n D models/hunyuan-video/hyvideo/cache/__init__.py\n D models/hunyuan-video/hyvideo/cache/cache_block.py\n D models/wan2.2-i2v/wan/cache/__init__.py\n D models/wan2.2-i2v/wan/cache/cache_block.py\n D ops/ascendc/torch_ops_extension/build_and_install.sh\n D ops/pypto/torch_ops_extension/build_and_install.sh\n",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "cann-custom-ops/src/ops-transformer",
+    "head": "bcc6304656c9e712b50b1faa22872a158b1e34c5",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/ops-transformer.git (fetch)\norigin\thttps://gitcode.com/cann/ops-transformer.git (push)\n",
+    "source_status": " M CMakeLists.txt\n D cmake/build_empty_package.cmake\n D cmake/third_party/build/modules/patch/protobuf-hide_absl_symbols.patch\n D cmake/third_party/build/modules/patch/protobuf_25.1_change_version.patch\n D examples/fast_kernel_launch_example/build_and_test.sh\n D experimental/npu_ops_transformer_ext/build_log.txt\n D experimental/select_attention_operators/scripts/build_kernels.sh\n D experimental/svd/torch_npu_linalg/build_and_install.sh\n D scripts/util/build_opp_kernel_static.py\n",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "cann-custom-ops/src/ops-transformer/third_party/opbase",
+    "head": "ee5334d157016d2afa736d4a23381855dbf1fe37",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/opbase.git (fetch)\norigin\thttps://gitcode.com/cann/opbase.git (push)\n",
+    "source_status": " D aicpu_common/context/CMakeLists.txt\n D aicpu_common/context/common/async_cpu_kernel.cc\n D aicpu_common/context/common/async_event_util.cc\n D aicpu_common/context/common/context.cc\n D aicpu_common/context/common/cpu_kernel_cache.cc\n D aicpu_common/context/common/cpu_kernel_register.cc\n D aicpu_common/context/common/cpu_kernel_utils.cc\n D aicpu_common/context/common/device.cc\n D aicpu_common/context/common/device_cpu_kernel.cc\n D aicpu_common/context/common/device_sharder.cc\n D aicpu_common/context/common/eigen_threadpool.cc\n D aicpu_common/context/common/eigen_threadpool_embedding.cc\n D aicpu_common/context/common/host_sharder.cc\n D aicpu_common/context/common/node_def_builder.cpp\n D aicpu_common/context/cpu_proto/attr_value.cc\n D aicpu_common/context/cpu_proto/attr_value_impl.cc\n D aicpu_common/context/cpu_proto/node_def.cc\n D aicpu_common/context/cpu_proto/node_def_impl.cc\n D aicpu_common/context/cpu_proto/proto/cpu_attr.proto\n D aicpu_common/context/cpu_proto/proto/cpu_node_def.proto\n D aicpu_common/context/cpu_proto/proto/cpu_tensor.proto\n D aicpu_common/context/cpu_proto/proto/cpu_tensor_shape.proto\n D aicpu_common/context/cpu_proto/tensor.cc\n D aicpu_common/context/cpu_proto/tensor_impl.cc\n D aicpu_common/context/cpu_proto/tensor_shape.cc\n D aicpu_common/context/cpu_proto/tensor_shape_impl.cc\n D aicpu_common/context/cust_op/cust_dlog_record.cc\n D aicpu_common/context/cust_op/cust_dlog_record.h\n D aicpu_common/context/cust_op/cust_op_log.cc\n D aicpu_common/context/device/CMakeLists.txt\n D aicpu_common/context/host/CMakeLists.txt\n D aicpu_common/context/utils/bcast.cc\n D aicpu_common/context/utils/eigen_tensor.cc\n D aicpu_common/context/utils/kernel_util.cc\n",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "cann-custom-ops/src/ops-transformer/third_party/ops-tensor",
+    "head": "f2e975775ca754c04084dece850dd6cc76bfbc5b",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/ops-tensor.git (fetch)\norigin\thttps://gitcode.com/cann/ops-tensor.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "flash-linear-attention-npu/third_party/opbase",
+    "head": "c8cfc45e350d4e07cd8cab8448d3b40f9727ea4c",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/opbase.git (fetch)\norigin\thttps://gitcode.com/cann/opbase.git (push)\n",
+    "source_status": " D aicpu_common/context/CMakeLists.txt\n D aicpu_common/context/common/async_cpu_kernel.cc\n D aicpu_common/context/common/async_event_util.cc\n D aicpu_common/context/common/context.cc\n D aicpu_common/context/common/cpu_kernel_cache.cc\n D aicpu_common/context/common/cpu_kernel_register.cc\n D aicpu_common/context/common/cpu_kernel_utils.cc\n D aicpu_common/context/common/device.cc\n D aicpu_common/context/common/device_cpu_kernel.cc\n D aicpu_common/context/common/device_sharder.cc\n D aicpu_common/context/common/eigen_threadpool.cc\n D aicpu_common/context/common/eigen_threadpool_embedding.cc\n D aicpu_common/context/common/host_sharder.cc\n D aicpu_common/context/common/node_def_builder.cpp\n D aicpu_common/context/cpu_proto/attr_value.cc\n D aicpu_common/context/cpu_proto/attr_value_impl.cc\n D aicpu_common/context/cpu_proto/node_def.cc\n D aicpu_common/context/cpu_proto/node_def_impl.cc\n D aicpu_common/context/cpu_proto/proto/cpu_attr.proto\n D aicpu_common/context/cpu_proto/proto/cpu_node_def.proto\n D aicpu_common/context/cpu_proto/proto/cpu_tensor.proto\n D aicpu_common/context/cpu_proto/proto/cpu_tensor_shape.proto\n D aicpu_common/context/cpu_proto/tensor.cc\n D aicpu_common/context/cpu_proto/tensor_impl.cc\n D aicpu_common/context/cpu_proto/tensor_shape.cc\n D aicpu_common/context/cpu_proto/tensor_shape_impl.cc\n D aicpu_common/context/cust_op/cust_dlog_record.cc\n D aicpu_common/context/cust_op/cust_dlog_record.h\n D aicpu_common/context/cust_op/cust_op_log.cc\n D aicpu_common/context/device/CMakeLists.txt\n D aicpu_common/context/host/CMakeLists.txt\n D aicpu_common/context/utils/bcast.cc\n D aicpu_common/context/utils/eigen_tensor.cc\n D aicpu_common/context/utils/kernel_util.cc\n D include/aclnnop/aclnn_util.h\n D include/nnopbase/aclnn/acl_meta.h\n D include/nnopbase/aclnn/aclnn_base.h\n D include/nnopbase/opdev/aicpu/aicpu_any_value.h\n D include/nnopbase/opdev/aicpu/aicpu_args_handler.h\n D include/nnopbase/opdev/aicpu/aicpu_ext_info_handle.h\n D include/nnopbase/opdev/aicpu/aicpu_kernel_launcher.h\n D include/nnopbase/opdev/aicpu/aicpu_task.h\n D include/nnopbase/opdev/aicpu/aicpu_utils.h\n D include/nnopbase/opdev/bfloat16.h\n D include/nnopbase/opdev/common_types.h\n D include/nnopbase/opdev/data_type_utils.h\n D include/nnopbase/opdev/fast_vector.h\n D include/nnopbase/opdev/float4_e1m2.h\n D include/nnopbase/opdev/float4_e2m1.h\n D include/nnopbase/opdev/float6_e2m3.h\n D include/nnopbase/opdev/float6_e3m2.h\n D include/nnopbase/opdev/float8_e4m3fn.h\n D include/nnopbase/opdev/float8_e5m2.h\n D include/nnopbase/opdev/float8_e8m0.h\n D include/nnopbase/opdev/format_utils.h\n D include/nnopbase/opdev/fp16_t.h\n D include/nnopbase/opdev/framework_op.h\n D include/nnopbase/opdev/hifloat4.h\n D include/nnopbase/opdev/hifloat8.h\n D include/nnopbase/opdev/make_op_executor.h\n D include/nnopbase/opdev/object.h\n D include/nnopbase/opdev/op_arg_def.h\n D include/nnopbase/opdev/op_cache.h\n D include/nnopbase/opdev/op_cache_container.h\n D include/nnopbase/opdev/op_common/data_type_utils.h\n D include/nnopbase/opdev/op_config.h\n D include/nnopbase/opdev/op_def.h\n D include/nnopbase/opdev/op_dfx.h\n D include/nnopbase/opdev/op_errno.h\n D include/nnopbase/opdev/op_executor.h\n D include/nnopbase/opdev/op_log.h\n D include/nnopbase/opdev/platform.h\n D include/nnopbase/opdev/pool_allocator.h\n D include/nnopbase/opdev/shape_utils.h\n D include/nnopbase/opdev/small_vector.h\n D include/nnopbase/opdev/tensor_view_utils.h\n D include/op_common/log/error_code.h\n D include/op_common/log/log.h\n D include/op_common/op_graph/op_fallback.h\n D include/op_common/op_graph/op_fallback_internal.h\n D include/op_common/op_host/infershape_broadcast_util.h\n D include/op_common/op_host/infershape_elewise_util.h\n D include/op_common/op_host/infershape_reduce_util.h\n D include/op_common/op_host/tiling_base_class.h\n D include/op_common/op_host/tiling_base_util.h\n D include/op_common/op_host/util/bfloat16.h\n D include/op_common/op_host/util/const_util.h\n D include/op_common/op_host/util/fp16.h\n D include/op_common/op_host/util/math_util.h\n D include/op_common/op_host/util/opbase_export.h\n D include/op_common/op_host/util/platform_util.h\n D include/op_common/op_host/util/shape_util.h\n D include/op_common/op_kernel/load_store_utils.h\n D include/op_common/op_kernel/math_util.h\n D include/op_common/op_kernel/platform_util.h\n",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "flash-linear-attention-npu/third_party/catlass",
+    "head": "41bf90da655bba3c66d0acd7e00abe33960ecfd6",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/cann/catlass.git (fetch)\norigin\thttps://gitcode.com/cann/catlass.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  },
+  {
+    "directory": "flash-linear-attention-npu/third_party/catlass/3rdparty/googletest",
+    "head": "f8d7d77c06936315286eb55f8de22cd23c188571",
+    "branch": null,
+    "remotes": "origin\thttps://gitcode.com/GitHub_Trending/go/googletest.git (fetch)\norigin\thttps://gitcode.com/GitHub_Trending/go/googletest.git (push)\n",
+    "source_status": "",
+    "included_private_snapshot": false
+  }
+]

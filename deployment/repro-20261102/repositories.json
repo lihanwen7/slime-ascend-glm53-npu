@@ -1,0 +1,111 @@
+{
+  "source_root": "/mnt/share/l00804615/glm5.3_flash_native",
+  "captured_at": "2026-11-02T16:55:52.294245+08:00",
+  "branch": "snapshot/glm53-shared-20261102",
+  "repositories": [
+    {
+      "directory": "slime-ascend/slime",
+      "private_repository": "https://github.com/lihanwen7/slime-glm53-npu",
+      "name": "slime-glm53-npu",
+      "source_head": "60f5dcd761ca0024e97303dea6eba90541cdf977",
+      "source_branch": null,
+      "source_refs": [
+        "refs/heads/main 60f5dcd761ca0024e97303dea6eba90541cdf977",
+        "refs/remotes/origin/main 60f5dcd761ca0024e97303dea6eba90541cdf977"
+      ],
+      "source_remotes": "origin\thttps://github.com/lihanwen7/slime-glm53-npu.git (fetch)\norigin\thttps://github.com/lihanwen7/slime-glm53-npu.git (push)\n",
+      "source_shallow": false,
+      "branch": "snapshot/glm53-shared-20261102",
+      "preserved_branches": {
+        "source/base-20261102": "60f5dcd761ca0024e97303dea6eba90541cdf977",
+        "source/main-20261102": "60f5dcd761ca0024e97303dea6eba90541cdf977",
+        "source/origin/main-20261102": "60f5dcd761ca0024e97303dea6eba90541cdf977",
+        "upstream/base-b2182cc5": "b2182cc5db977553455eb6e2e5c381eefbb35cfc"
+      },
+      "commit": "32ef69595957e0676cb8c75d30590bbd7b764144"
+    },
+    {
+      "directory": "sglang",
+      "private_repository": "https://github.com/lihanwen7/sglang-glm53-npu",
+      "name": "sglang-glm53-npu",
+      "source_head": "872f1721cc6d4679f008167386ec6699a6580102",
+      "source_branch": "glmx-lwm-0826-A5",
+      "source_refs": [
+        "refs/heads/glmx-lwm-0826-A5 872f1721cc6d4679f008167386ec6699a6580102",
+        "refs/remotes/glmx/glmx-main-a3-a5-merge 872f1721cc6d4679f008167386ec6699a6580102"
+      ],
+      "source_remotes": "glmx\tgit@gitcode.com:pengxingchen0810/glmx.git (fetch)\nglmx\tgit@gitcode.com:pengxingchen0810/glmx.git (push)\norigin\thttps://github.com/sgl-project/sglang.git (fetch)\norigin\thttps://github.com/sgl-project/sglang.git (push)\n",
+      "source_shallow": false,
+      "branch": "snapshot/glm53-shared-20261102",
+      "preserved_branches": {
+        "source/base-20261102": "872f1721cc6d4679f008167386ec6699a6580102",
+        "source/glmx-lwm-0826-A5-20261102": "872f1721cc6d4679f008167386ec6699a6580102",
+        "source/glmx/glmx-main-a3-a5-merge-20261102": "872f1721cc6d4679f008167386ec6699a6580102",
+        "upstream/base-1c76e6a0": "1c76e6a01d2e2673b14c05da75210cf8d6d94469"
+      },
+      "commit": "5ff2103001af218cef81354143b84a02aea7744b"
+    },
+    {
+      "directory": "sgl-kernel-npu-src",
+      "private_repository": "https://github.com/lihanwen7/sgl-kernel-npu-glm53",
+      "name": "sgl-kernel-npu-glm53",
+      "source_head": "9765e27532b8f854717eba1d3fb9a0bb97a0c887",
+      "source_branch": null,
+      "source_refs": [],
+      "source_remotes": "origin\thttps://github.com/sgl-project/sgl-kernel-npu.git (fetch)\norigin\thttps://github.com/sgl-project/sgl-kernel-npu.git (push)\n",
+      "source_shallow": true,
+      "branch": "snapshot/glm53-shared-20261102",
+      "preserved_branches": {
+        "source/base-20261102": "9765e27532b8f854717eba1d3fb9a0bb97a0c887"
+      },
+      "commit": "4535529eaa3d0dd2b921763beed758aea6292bc2"
+    },
+    {
+      "directory": "Megatron-LM",
+      "private_repository": "https://github.com/lihanwen7/Megatron-LM-glm53-npu",
+      "name": "Megatron-LM-glm53-npu",
+      "source_head": "4b4acac9a1d28ea6829c8d4f566d75698a21249d",
+      "source_branch": null,
+      "source_refs": [],
+      "source_remotes": "origin\thttps://github.com/NVIDIA/Megatron-LM.git (fetch)\norigin\thttps://github.com/NVIDIA/Megatron-LM.git (push)\n",
+      "source_shallow": true,
+      "branch": "snapshot/glm53-shared-20261102",
+      "preserved_branches": {
+        "source/base-20261102": "4b4acac9a1d28ea6829c8d4f566d75698a21249d"
+      },
+      "commit": "c8911233474922fcfd8d1521554f4f951b8d21ce"
+    },
+    {
+      "directory": "slime-ascend",
+      "private_repository": "https://github.com/lihanwen7/slime-ascend-glm53-npu",
+      "name": "slime-ascend-glm53-npu",
+      "source_head": "282b6eb6409a0821293400fba3ddfe52fb5f9e01",
+      "source_branch": null,
+      "source_refs": [
+        "refs/remotes/origin/v0.3.2 282b6eb6409a0821293400fba3ddfe52fb5f9e01"
+      ],
+      "source_remotes": "origin\thttps://gitcode.com/Ascend/slime-ascend.git (fetch)\norigin\thttps://gitcode.com/Ascend/slime-ascend.git (push)\n",
+      "source_shallow": true,
+      "branch": "snapshot/glm53-shared-20261102",
+      "preserved_branches": {
+        "source/base-20261102": "282b6eb6409a0821293400fba3ddfe52fb5f9e01",
+        "source/origin/v0.3.2-20261102": "282b6eb6409a0821293400fba3ddfe52fb5f9e01"
+      },
+      "commit": "96ddaf500832c648fffef797c6d7bb50f820ca1d"
+    }
+  ],
+  "root_files": {
+    "activate.sh": "997f92ada66a21a87b823e9feeb41ee7d50a1002f62876c1a899db6be6311a51",
+    "README.md": "19ead34b0dcb9bd60c30e2d63410fe4b42269f6c404e0309205b879d8b9f79a4",
+    "AGENTS.md": "8594573be444cba08a57f25442645b5355132834ee626c188f4e2b472f2e7f29",
+    "start/give-me-hostm.py": "1e33c79892f819f9e653704a3980f1f3afbccc49641d5e57c7c6a27a42e4a043",
+    "start/rh_run_glm53_single_node_24_rh.sh": "3723c51b7de11841d28f22c97c2cbe96c54dd6a6b50da40f82b8feffb069d815",
+    "start/rh_run_glm53_single_node_24_rh-1237.sh": "4e080871a233290c9327b2d8b0451e94a0ad2a6da26747bfc071c2ed13f8b291",
+    "start/rh_run_glm53_single_node_24_rh-rollout.sh": "b47efe58d9791e112b060097553a55d1950d473c9aaf6e3476c0e932b6702dc5",
+    "start/rh_run_glm53_single_node_24_rh-train-memory-profiling.sh": "53949e77eae15aab9f531b813faf8d6b82726bd019ca00d95a35c80995340d4f",
+    "start/rh_run_glm53_single_node_24_rh-train-profiling-ep1.sh": "e4601ab9c6ef9079eafff83cadda18b2db76f815a246e26750a14f7587589cbf"
+  },
+  "environment_backup": "/mnt/share/l00804615/glm5.3_flash_native/cache/archive/20261102_145645_slime_repro_snapshot",
+  "excluded_change": "ops-transformer CMake header include path adjustment is not included, as requested.",
+  "self_commit_note": "The outer repo commit listed is its exact code snapshot parent; this manifest is committed immediately after it. Use this branch for the metadata commit and the listed exact commits for all other private repositories."
+}

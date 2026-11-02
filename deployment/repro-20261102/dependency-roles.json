@@ -1,0 +1,39 @@
+{
+  "evidence": "Installed distribution metadata plus original launcher PYTHONPATH; not a live-process import trace.",
+  "source_priority": [
+    "slime-ascend/scripts/lib/glm53/runtime",
+    "slime-ascend/slime",
+    "Megatron-LM",
+    "MegatronAdaptor",
+    "TransformerEngineNPU",
+    "mbridge",
+    "sglang/python"
+  ],
+  "editable": [
+    "slime-ascend/slime",
+    "sglang",
+    "triton-ascend-kernels"
+  ],
+  "installed_native": [
+    "torch==2.10.0",
+    "torch_npu==2.10.0.post7",
+    "sgl_kernel_npu==2026.9.0",
+    "torch_memory_saver==0.0.8 (20261031214500 wheel)",
+    "flash-linear-attention-npu-a5==26.10.0+26.10.0.devbde9574",
+    "deep_ep==1.0.0+a5c12d19.cann.9.2.0.b237",
+    "triton==3.5.0",
+    "triton_ascend==3.2.2"
+  ],
+  "source_or_reference_not_proven_active": [
+    "MindSpeed-Bridge",
+    "Megatron-Bridge",
+    "cann-custom-ops/src/ops-transformer",
+    "cann-custom-ops/src/cann-recipes-infer",
+    "third_party/tilelang-ascend-0.1.15"
+  ],
+  "sdk": [
+    "/mnt/share/l00804615/cann/9.2.0/cann-9.2.0",
+    "/mnt/share/l00804615/cann/9.2.0/nnal/atb"
+  ],
+  "caution": "Do not rebuild installed binaries merely because a same-named source checkout exists. These source trees are preserved for provenance; no source-to-binary equivalence was newly established."
+}

@@ -1,0 +1,1501 @@
+[
+  {
+    "path": "/mnt/weight/GLM-5.3-Flash-BF16",
+    "exists_on_audit_host": true,
+    "copied": false,
+    "files": [
+      {
+        "name": ".migration-owner.json",
+        "size": 94,
+        "mtime_ns": 1792586346733689880,
+        "sha256": "1022657de4a8a7d1cde35e649f3a999c80f34b4edc72734b0c00695839e2ed00"
+      },
+      {
+        "name": "LICENSE",
+        "size": 1070,
+        "mtime_ns": 1792724411631492280,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "README.md",
+        "size": 8033,
+        "mtime_ns": 1792724407763193560,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "chat_template.jinja",
+        "size": 10950,
+        "mtime_ns": 1792724410730574460,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "config.json",
+        "size": 5939,
+        "mtime_ns": 1792724408867600720,
+        "sha256": "33e63ec7fe607658be712bd6dd3c16c6549960d8e7f0483d34b939881b55f943"
+      },
+      {
+        "name": "generation_config.json",
+        "size": 194,
+        "mtime_ns": 1792724409797356180,
+        "sha256": "230c30609ecbbb9e6583bedde8e7bdda0c6eb8fe5fad0eaeb3d1b293d751cb4f"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "size": 4083163,
+        "mtime_ns": 1792724321280274380,
+        "sha256": "e6007bd58fb7e07f9fe69544257ee2713f252ef5855bbf685b48c991d524ef0f"
+      },
+      {
+        "name": "processor_config.json",
+        "size": 909,
+        "mtime_ns": 1792724322581431300,
+        "sha256": "aae38374c94b08cc9b0547c6e64f05b951bd9735cea571c6988f5ed552bed3ed"
+      },
+      {
+        "name": "tokenizer.json",
+        "size": 20217442,
+        "mtime_ns": 1792724323636299220,
+        "sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+      },
+      {
+        "name": "tokenizer_config.json",
+        "size": 761,
+        "mtime_ns": 1792724324496086430,
+        "sha256": "98b1271574f41abf89427ae2dda030d94dc9478f0edc5a8bd240db213c6fd5fc"
+      },
+      {
+        "name": "model-00048-of-00120.safetensors",
+        "size": 5362973000,
+        "mtime_ns": 1792725767311590780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00047-of-00120.safetensors",
+        "size": 5368754176,
+        "mtime_ns": 1792725807871939430,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00051-of-00120.safetensors",
+        "size": 5354098200,
+        "mtime_ns": 1792725828230904110,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00050-of-00120.safetensors",
+        "size": 5368754104,
+        "mtime_ns": 1792725852242561560,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00053-of-00120.safetensors",
+        "size": 5368754032,
+        "mtime_ns": 1792722701736959280,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00052-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792722718655946310,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00054-of-00120.safetensors",
+        "size": 5362973152,
+        "mtime_ns": 1792722736060341280,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00055-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792722755495833630,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00056-of-00120.safetensors",
+        "size": 5361260904,
+        "mtime_ns": 1792722775434065150,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00057-of-00120.safetensors",
+        "size": 5353688600,
+        "mtime_ns": 1792722800031739740,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00058-of-00120.safetensors",
+        "size": 5368753872,
+        "mtime_ns": 1792722826085554940,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00059-of-00120.safetensors",
+        "size": 5354097856,
+        "mtime_ns": 1792722842640243090,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00060-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792722867344248390,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00061-of-00120.safetensors",
+        "size": 5368754120,
+        "mtime_ns": 1792722890084404750,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00062-of-00120.safetensors",
+        "size": 5362973064,
+        "mtime_ns": 1792722914649790010,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00063-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792722936320469450,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00064-of-00120.safetensors",
+        "size": 5368754040,
+        "mtime_ns": 1792722953524991080,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00065-of-00120.safetensors",
+        "size": 5354098264,
+        "mtime_ns": 1792722981019984530,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00066-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723000119084780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00067-of-00120.safetensors",
+        "size": 5368753968,
+        "mtime_ns": 1792723015557895500,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00068-of-00120.safetensors",
+        "size": 5362973216,
+        "mtime_ns": 1792723034653356330,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00069-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723050827656410,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00070-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792723074885871530,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00071-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723091148002260,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00072-of-00120.safetensors",
+        "size": 5368754136,
+        "mtime_ns": 1792723104943726420,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00073-of-00120.safetensors",
+        "size": 5362973048,
+        "mtime_ns": 1792723117425619760,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00074-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723128694433560,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00075-of-00120.safetensors",
+        "size": 5368754056,
+        "mtime_ns": 1792723142052632940,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00076-of-00120.safetensors",
+        "size": 5354098248,
+        "mtime_ns": 1792723154985926670,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00077-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723168594856790,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00078-of-00120.safetensors",
+        "size": 5368753984,
+        "mtime_ns": 1792723182488901000,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00079-of-00120.safetensors",
+        "size": 5362973200,
+        "mtime_ns": 1792723196249107460,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00080-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723208494893900,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00081-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792723220107231360,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00082-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723232722875740,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00083-of-00120.safetensors",
+        "size": 5368754152,
+        "mtime_ns": 1792723245369372470,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00084-of-00120.safetensors",
+        "size": 5362973032,
+        "mtime_ns": 1792723258257164260,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00085-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723275121985930,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00086-of-00120.safetensors",
+        "size": 5368754072,
+        "mtime_ns": 1792723288045457740,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00087-of-00120.safetensors",
+        "size": 5354098040,
+        "mtime_ns": 1792723311768901150,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00088-of-00120.safetensors",
+        "size": 5368753864,
+        "mtime_ns": 1792723339577344910,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00089-of-00120.safetensors",
+        "size": 5368753680,
+        "mtime_ns": 1792723365685252260,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00090-of-00120.safetensors",
+        "size": 5362973128,
+        "mtime_ns": 1792723390399413900,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00091-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723407391965910,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00092-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792723427619647510,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00093-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723461308393230,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00094-of-00120.safetensors",
+        "size": 5368754168,
+        "mtime_ns": 1792723486285879680,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00095-of-00120.safetensors",
+        "size": 5362973016,
+        "mtime_ns": 1792723504336524640,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00096-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723521906539670,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00097-of-00120.safetensors",
+        "size": 5368754088,
+        "mtime_ns": 1792723540033922650,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00098-of-00120.safetensors",
+        "size": 5362973096,
+        "mtime_ns": 1792723556743529350,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00099-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723574846125060,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00100-of-00120.safetensors",
+        "size": 5368754008,
+        "mtime_ns": 1792723592251524690,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00101-of-00120.safetensors",
+        "size": 5354098280,
+        "mtime_ns": 1792723609907820560,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00102-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792723645307275700,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00103-of-00120.safetensors",
+        "size": 5361415448,
+        "mtime_ns": 1792723679055298750,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00104-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792723697925011730,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00105-of-00120.safetensors",
+        "size": 5368754176,
+        "mtime_ns": 1792723732698158660,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00106-of-00120.safetensors",
+        "size": 5354106360,
+        "mtime_ns": 1792723772647260520,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00107-of-00120.safetensors",
+        "size": 5368753872,
+        "mtime_ns": 1792723813512693450,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00108-of-00120.safetensors",
+        "size": 5368753784,
+        "mtime_ns": 1792723845231954260,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00109-of-00120.safetensors",
+        "size": 5362972744,
+        "mtime_ns": 1792723890108122600,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00110-of-00120.safetensors",
+        "size": 5368753872,
+        "mtime_ns": 1792723920038262580,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00111-of-00120.safetensors",
+        "size": 5368753712,
+        "mtime_ns": 1792723964065139610,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00112-of-00120.safetensors",
+        "size": 5362972824,
+        "mtime_ns": 1792723991254650420,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00113-of-00120.safetensors",
+        "size": 5368753864,
+        "mtime_ns": 1792724014218738170,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00114-of-00120.safetensors",
+        "size": 5356708288,
+        "mtime_ns": 1792724050749314780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00115-of-00120.safetensors",
+        "size": 5366143376,
+        "mtime_ns": 1792724072783134390,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00116-of-00120.safetensors",
+        "size": 5368753872,
+        "mtime_ns": 1792724089989203800,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00117-of-00120.safetensors",
+        "size": 5362972664,
+        "mtime_ns": 1792724117421587470,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00118-of-00120.safetensors",
+        "size": 5368753864,
+        "mtime_ns": 1792724137543142520,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00119-of-00120.safetensors",
+        "size": 5368753800,
+        "mtime_ns": 1792724154768545600,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00120-of-00120.safetensors",
+        "size": 4173417528,
+        "mtime_ns": 1792724171290098910,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": ".gitattributes",
+        "size": 1570,
+        "mtime_ns": 1792724407766225020,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00002-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792724440645686290,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00003-of-00120.safetensors",
+        "size": 5368754080,
+        "mtime_ns": 1792724459286394780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00001-of-00120.safetensors",
+        "size": 5358221856,
+        "mtime_ns": 1792724477041684210,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00004-of-00120.safetensors",
+        "size": 5362973096,
+        "mtime_ns": 1792724501042171760,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00005-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792724516409290620,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00006-of-00120.safetensors",
+        "size": 5368754008,
+        "mtime_ns": 1792724540382250870,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00008-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792724563374881300,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00007-of-00120.safetensors",
+        "size": 5354098288,
+        "mtime_ns": 1792724589170773470,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00009-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792724616885622900,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00010-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792724635587008190,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00011-of-00120.safetensors",
+        "size": 5368754168,
+        "mtime_ns": 1792724653284764550,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00012-of-00120.safetensors",
+        "size": 5362973008,
+        "mtime_ns": 1792724670118766330,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00013-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792724697288769880,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00014-of-00120.safetensors",
+        "size": 5368754096,
+        "mtime_ns": 1792724719453175780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00016-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792724735171931970,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00015-of-00120.safetensors",
+        "size": 5362973080,
+        "mtime_ns": 1792724751814154950,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00017-of-00120.safetensors",
+        "size": 5368754024,
+        "mtime_ns": 1792724770592339530,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00018-of-00120.safetensors",
+        "size": 5354098280,
+        "mtime_ns": 1792724802168093930,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00019-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792724818248816820,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00020-of-00120.safetensors",
+        "size": 5344548784,
+        "mtime_ns": 1792724834347036080,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00021-of-00120.safetensors",
+        "size": 5353623672,
+        "mtime_ns": 1792724861831372870,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00022-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792724891532804590,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00023-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792724921107062430,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00024-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792724957870303690,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00025-of-00120.safetensors",
+        "size": 5368754120,
+        "mtime_ns": 1792724991913574210,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00026-of-00120.safetensors",
+        "size": 5362973064,
+        "mtime_ns": 1792725024853528780,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00027-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792725048934718570,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00029-of-00120.safetensors",
+        "size": 5362731784,
+        "mtime_ns": 1792725083090441330,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00032-of-00120.safetensors",
+        "size": 5362973184,
+        "mtime_ns": 1792725116405093670,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00028-of-00120.safetensors",
+        "size": 5368754040,
+        "mtime_ns": 1792725149865446480,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00031-of-00120.safetensors",
+        "size": 5368754000,
+        "mtime_ns": 1792725180520588020,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00030-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792725225835366070,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00033-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792725255061166870,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00034-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792725286849043520,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00035-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792725325399020790,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00036-of-00120.safetensors",
+        "size": 5368754160,
+        "mtime_ns": 1792725354385146910,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00037-of-00120.safetensors",
+        "size": 5362973016,
+        "mtime_ns": 1792725382359515180,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00038-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792725417792430330,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00039-of-00120.safetensors",
+        "size": 5368754088,
+        "mtime_ns": 1792725445586158420,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00040-of-00120.safetensors",
+        "size": 5354098216,
+        "mtime_ns": 1792725474665383770,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00041-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792725502032738660,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00043-of-00120.safetensors",
+        "size": 5362973160,
+        "mtime_ns": 1792725547727692860,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00044-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792725585721816290,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00045-of-00120.safetensors",
+        "size": 5362972992,
+        "mtime_ns": 1792725623895737520,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00042-of-00120.safetensors",
+        "size": 5368754008,
+        "mtime_ns": 1792725661167281500,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00046-of-00120.safetensors",
+        "size": 5368754184,
+        "mtime_ns": 1792725696446599240,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00049-of-00120.safetensors",
+        "size": 5368754192,
+        "mtime_ns": 1792725740262154900,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      }
+    ]
+  },
+  {
+    "path": "/mnt/share/l00937981/iter_0003000_bf16",
+    "exists_on_audit_host": true,
+    "copied": false,
+    "files": [
+      {
+        "name": ".gitattributes",
+        "size": 1570,
+        "mtime_ns": 1791950098268990610,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "LICENSE",
+        "size": 1070,
+        "mtime_ns": 1791950095988990610,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "README.md",
+        "size": 8033,
+        "mtime_ns": 1791950096932990610,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "chat_template.jinja",
+        "size": 10950,
+        "mtime_ns": 1792574301478167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "config.json",
+        "size": 6085,
+        "mtime_ns": 1792574301290167250,
+        "sha256": "e36292849997468ff2b8760ac17a51bc96980d702820f2b2b50e62d8fc8fe312"
+      },
+      {
+        "name": "generation_config.json",
+        "size": 194,
+        "mtime_ns": 1791950097876990610,
+        "sha256": "230c30609ecbbb9e6583bedde8e7bdda0c6eb8fe5fad0eaeb3d1b293d751cb4f"
+      },
+      {
+        "name": "index.json",
+        "size": 361090,
+        "mtime_ns": 1792574299794167250,
+        "sha256": "15e8fdcdd49544c86e4b5ca5339f1329456f02bdce5503b1acdfc8234b674ca7"
+      },
+      {
+        "name": "model-00001-of-00120.safetensors",
+        "size": 3848259728,
+        "mtime_ns": 1792575031986167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00002-of-00120.safetensors",
+        "size": 503320632,
+        "mtime_ns": 1792575034078167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00003-of-00120.safetensors",
+        "size": 150996216,
+        "mtime_ns": 1792575034638167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00004-of-00120.safetensors",
+        "size": 579197136,
+        "mtime_ns": 1792575035914167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00005-of-00120.safetensors",
+        "size": 452988576,
+        "mtime_ns": 1792575037258167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00006-of-00120.safetensors",
+        "size": 100664152,
+        "mtime_ns": 1792575037646167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00007-of-00120.safetensors",
+        "size": 603876944,
+        "mtime_ns": 1792575039074167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00008-of-00120.safetensors",
+        "size": 486543288,
+        "mtime_ns": 1792575040634167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00009-of-00120.safetensors",
+        "size": 344314192,
+        "mtime_ns": 1792575041142167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00010-of-00120.safetensors",
+        "size": 352324448,
+        "mtime_ns": 1792575042298167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00011-of-00120.safetensors",
+        "size": 452988584,
+        "mtime_ns": 1792575043694167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00012-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575044190167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00013-of-00120.safetensors",
+        "size": 402656504,
+        "mtime_ns": 1792575045594167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00014-of-00120.safetensors",
+        "size": 402656520,
+        "mtime_ns": 1792575046938167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00015-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575047482167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00016-of-00120.safetensors",
+        "size": 503320624,
+        "mtime_ns": 1792575049094167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00017-of-00120.safetensors",
+        "size": 301992400,
+        "mtime_ns": 1792575049958167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00018-of-00120.safetensors",
+        "size": 352216648,
+        "mtime_ns": 1792575050634167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00019-of-00120.safetensors",
+        "size": 503320632,
+        "mtime_ns": 1792575052130167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00020-of-00120.safetensors",
+        "size": 443331464,
+        "mtime_ns": 1792575053298167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00021-of-00120.safetensors",
+        "size": 286861896,
+        "mtime_ns": 1792575054026167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00022-of-00120.safetensors",
+        "size": 469765928,
+        "mtime_ns": 1792575054898167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00023-of-00120.safetensors",
+        "size": 512087744,
+        "mtime_ns": 1792575055530167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00024-of-00120.safetensors",
+        "size": 201328264,
+        "mtime_ns": 1792575055910167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00025-of-00120.safetensors",
+        "size": 603984760,
+        "mtime_ns": 1792575057134167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00026-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575057374167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00027-of-00120.safetensors",
+        "size": 251660328,
+        "mtime_ns": 1792575057826167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00028-of-00120.safetensors",
+        "size": 553652704,
+        "mtime_ns": 1792575058766167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00029-of-00120.safetensors",
+        "size": 880948208,
+        "mtime_ns": 1792575059774167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00030-of-00120.safetensors",
+        "size": 285215032,
+        "mtime_ns": 1792575060502167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00031-of-00120.safetensors",
+        "size": 520097992,
+        "mtime_ns": 1792575061198167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00032-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575061502167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00033-of-00120.safetensors",
+        "size": 352324448,
+        "mtime_ns": 1792575061630167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00034-of-00120.safetensors",
+        "size": 780525408,
+        "mtime_ns": 1792575062254167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00036-of-00120.safetensors",
+        "size": 771758296,
+        "mtime_ns": 1792575062402167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00037-of-00120.safetensors",
+        "size": 361091544,
+        "mtime_ns": 1792575062474167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00039-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575062606167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00040-of-00120.safetensors",
+        "size": 301884584,
+        "mtime_ns": 1792575062666167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00041-of-00120.safetensors",
+        "size": 50332088,
+        "mtime_ns": 1792575062678167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00042-of-00120.safetensors",
+        "size": 754980944,
+        "mtime_ns": 1792575062802167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00043-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575062866167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00044-of-00120.safetensors",
+        "size": 100664144,
+        "mtime_ns": 1792575062886167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00045-of-00120.safetensors",
+        "size": 1032185712,
+        "mtime_ns": 1792575063058167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00047-of-00120.safetensors",
+        "size": 318769736,
+        "mtime_ns": 1792575063122167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00048-of-00120.safetensors",
+        "size": 814080112,
+        "mtime_ns": 1792575063262167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00050-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575063406167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00051-of-00120.safetensors",
+        "size": 301884584,
+        "mtime_ns": 1792575063470167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00053-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575063602167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00054-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575063670167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00056-of-00120.safetensors",
+        "size": 929809464,
+        "mtime_ns": 1792575063830167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00057-of-00120.safetensors",
+        "size": 656028904,
+        "mtime_ns": 1792575065610167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00059-of-00120.safetensors",
+        "size": 654208984,
+        "mtime_ns": 1792575067046167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00061-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575067230167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00062-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575067298167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00064-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575067434167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00065-of-00120.safetensors",
+        "size": 301884584,
+        "mtime_ns": 1792575067494167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00067-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575067630167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00068-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575067694167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00070-of-00120.safetensors",
+        "size": 1132849840,
+        "mtime_ns": 1792575067882167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00072-of-00120.safetensors",
+        "size": 637539464,
+        "mtime_ns": 1792575067994167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00073-of-00120.safetensors",
+        "size": 495310392,
+        "mtime_ns": 1792575068082167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00075-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575068218167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00076-of-00120.safetensors",
+        "size": 301884584,
+        "mtime_ns": 1792575068278167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00078-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575068414167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00117-of-00120.safetensors",
+        "size": 528865048,
+        "mtime_ns": 1792575084430167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00079-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575068478167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00081-of-00120.safetensors",
+        "size": 1132849840,
+        "mtime_ns": 1792575068666167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00118-of-00120.safetensors",
+        "size": 503320608,
+        "mtime_ns": 1792575085966167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00083-of-00120.safetensors",
+        "size": 184550912,
+        "mtime_ns": 1792575068706167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00084-of-00120.safetensors",
+        "size": 948298936,
+        "mtime_ns": 1792575068862167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00119-of-00120.safetensors",
+        "size": 150996208,
+        "mtime_ns": 1792575086434167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00086-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575069002167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00087-of-00120.safetensors",
+        "size": 603876928,
+        "mtime_ns": 1792575070454167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00120-of-00120.safetensors",
+        "size": 1503588304,
+        "mtime_ns": 1792575089770167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00088-of-00120.safetensors",
+        "size": 201328264,
+        "mtime_ns": 1792575071234167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00089-of-00120.safetensors",
+        "size": 251660312,
+        "mtime_ns": 1792575071858167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "size": 361088,
+        "mtime_ns": 1792575089794167250,
+        "sha256": "56b9bde22c35ae526ee067f24144600573064e4fb1a08b404b581b7d76e1b547"
+      },
+      {
+        "name": "model-00090-of-00120.safetensors",
+        "size": 377868880,
+        "mtime_ns": 1792575072394167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00092-of-00120.safetensors",
+        "size": 1132849840,
+        "mtime_ns": 1792575072618167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "processor_config.json",
+        "size": 1445,
+        "mtime_ns": 1792574301482167250,
+        "sha256": "ce7d2572395b24edcd2525e886ecbd132754db2f9025adbbcf5f482d7978fa40"
+      },
+      {
+        "name": "model-00095-of-00120.safetensors",
+        "size": 1132849840,
+        "mtime_ns": 1792575072810167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00097-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575072946167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "tokenizer.json",
+        "size": 20217442,
+        "mtime_ns": 1792574301454167250,
+        "sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+      },
+      {
+        "name": "model-00098-of-00120.safetensors",
+        "size": 327536832,
+        "mtime_ns": 1792575073014167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00100-of-00120.safetensors",
+        "size": 805313000,
+        "mtime_ns": 1792575073146167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "tokenizer_config.json",
+        "size": 832,
+        "mtime_ns": 1792574301294167250,
+        "sha256": "21848631f494177b449db5fab804cfb52e38077e0802dd4a8568978c010c3d3b"
+      },
+      {
+        "name": "model-00101-of-00120.safetensors",
+        "size": 301884584,
+        "mtime_ns": 1792575073210167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00103-of-00120.safetensors",
+        "size": 1131267792,
+        "mtime_ns": 1792575073390167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00106-of-00120.safetensors",
+        "size": 152578200,
+        "mtime_ns": 1792575073842167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00107-of-00120.safetensors",
+        "size": 402656496,
+        "mtime_ns": 1792575074870167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00108-of-00120.safetensors",
+        "size": 50332088,
+        "mtime_ns": 1792575075050167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00109-of-00120.safetensors",
+        "size": 780525336,
+        "mtime_ns": 1792575076874167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00110-of-00120.safetensors",
+        "size": 352324440,
+        "mtime_ns": 1792575077854167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00111-of-00120.safetensors",
+        "size": 100664136,
+        "mtime_ns": 1792575078042167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00112-of-00120.safetensors",
+        "size": 780525336,
+        "mtime_ns": 1792575079550167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00113-of-00120.safetensors",
+        "size": 301992384,
+        "mtime_ns": 1792575080734167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00114-of-00120.safetensors",
+        "size": 220608280,
+        "mtime_ns": 1792575081346167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00115-of-00120.safetensors",
+        "size": 735593080,
+        "mtime_ns": 1792575082570167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "model-00116-of-00120.safetensors",
+        "size": 201328264,
+        "mtime_ns": 1792575083278167250,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      }
+    ]
+  },
+  {
+    "path": "/mnt/share/l00937981/glm53_dapo_sft_rl.jsonl",
+    "exists_on_audit_host": true,
+    "copied": false,
+    "files": [
+      {
+        "name": "glm53_dapo_sft_rl.jsonl",
+        "size": 147368,
+        "mtime_ns": 1792640572483836950,
+        "sha256": "98d8f6dba22e4a04941144931726fdc8781cb420a8ba2432698a18e57cc0835c"
+      }
+    ]
+  },
+  {
+    "path": "/mnt/share/l00804615/datasets/geo3k_imgurl",
+    "exists_on_audit_host": true,
+    "copied": false,
+    "files": [
+      {
+        "name": "train.jsonl",
+        "size": 732626,
+        "mtime_ns": 1793418212687949740,
+        "sha256": "b03dbf271c09422b649caa86353eddb86cf76440cf1609bc1719d4acc88cbaa1"
+      },
+      {
+        "name": "train.parquet",
+        "size": 92654234,
+        "mtime_ns": 1793418176456899330,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "test.jsonl",
+        "size": 210390,
+        "mtime_ns": 1793418215824384870,
+        "sha256": "d55088e6cbce76431d61e7f117588e8079de570449e7e4171654522b7b1b258f"
+      },
+      {
+        "name": "test.parquet",
+        "size": 26859434,
+        "mtime_ns": 1793418192197893790,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      },
+      {
+        "name": "dataset_manifest.json",
+        "size": 1574,
+        "mtime_ns": 1793418215880399710,
+        "sha256": "0a01663f469ade2df91e5bdf31acd5c5bdd9ba4a0c5b3be069e8f929db64725a"
+      }
+    ]
+  },
+  {
+    "path": "/mnt/share/l00804615/datasets/DAPO-Math-17k-original-65877096-full8-7b849e/train-original-glm53-format.jsonl",
+    "exists_on_audit_host": true,
+    "copied": false,
+    "files": [
+      {
+        "name": "train-original-glm53-format.jsonl",
+        "size": 979081700,
+        "mtime_ns": 1793022589779096160,
+        "content_hash": "not computed; large model/data assets are outside backup scope"
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "source": "/mnt/share/l00804615/glm5.3_flash_native/Megatron-LM/megatron/core/optimizer/cpu_offloading/hybrid_optimizer.py",
+    "installed": "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/megatron/core/optimizer/cpu_offloading/hybrid_optimizer.py",
+    "source_sha256": "ee0edbf26e1625a0495ce40f9fb95cb8ebaaa9c3c4944cd02e0148b78c9bc204",
+    "installed_sha256": "6a7f96e2afd0081991aff86424e5fdd9c07bce8c2636728baa0b8b2c8b4f2be2",
+    "equal": false
+  },
+  {
+    "source": "/mnt/share/l00804615/glm5.3_flash_native/sgl-kernel-npu-src/contrib/torch_memory_saver/python/torch_memory_saver/entrypoint.py",
+    "installed": "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/torch_memory_saver/entrypoint.py",
+    "source_sha256": "55b936501a196ea14de74e70f37369819d021530f6c0df48bbcccf19df976d7b",
+    "installed_sha256": "55b936501a196ea14de74e70f37369819d021530f6c0df48bbcccf19df976d7b",
+    "equal": true
+  },
+  {
+    "source": "/mnt/share/l00804615/glm5.3_flash_native/sgl-kernel-npu-src/contrib/torch_memory_saver/python/torch_memory_saver/hooks/mode_preload.py",
+    "installed": "/mnt/share/l00804615/conda/envs/lhw_glm_53_flash_native/lib/python3.12/site-packages/torch_memory_saver/hooks/mode_preload.py",
+    "source_sha256": "e642444fdbf1cbef49ec5e99acbb8b7526ffecf45ad140af24c8f124a04e60a3",
+    "installed_sha256": "e642444fdbf1cbef49ec5e99acbb8b7526ffecf45ad140af24c8f124a04e60a3",
+    "equal": true
+  }
+]

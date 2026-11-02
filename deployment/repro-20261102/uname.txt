@@ -1,0 +1,1 @@
+Linux localhost.localdomain 6.6.0-145.3.33.164.oe2403sp3.aarch64 #1 SMP Thu Sep 24 03:46:10 CST 2026 aarch64 aarch64 aarch64 GNU/Linux
