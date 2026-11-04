@@ -1,4 +1,4 @@
 [submodule "slime"]
 	path = slime
 	url = https://github.com/lihanwen7/slime-glm53-npu.git
-	branch = snapshot/glm53-shared-20261102
+	branch = main

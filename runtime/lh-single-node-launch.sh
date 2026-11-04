@@ -16,19 +16,27 @@ source=pathlib.Path(sys.argv[1]).resolve()
 view=pathlib.Path(tempfile.mkdtemp(prefix='glm53-cann-'))
 for entry in source.iterdir():
     (view/entry.name).symlink_to(entry, target_is_directory=entry.is_dir())
-shutil.copyfile(source/'aarch64-linux/ascend_toolkit_install.info',view/'ascend_toolkit_install.info')
+for name in ('ascend_toolkit_install.info', 'ascend_all_cann_install.info'):
+    info = source/'aarch64-linux'/name
+    if info.is_file():
+        shutil.copyfile(info, view/name)
+        break
+else:
+    raise FileNotFoundError('CANN installation metadata missing: '+str(source))
 print(view)
 PY_CANN_VIEW
 )
 export ASCEND_HOME_PATH
+export PATH="$CONDA_ENV/bin:$PATH"
+export CONDA_PREFIX="$CONDA_ENV"
 export LD_LIBRARY_PATH="$CONDA_ENV/lib:${LD_LIBRARY_PATH:-}"
-export PYTHONPATH="$DEPS_ROOT/slime-ascend/scripts/lib/glm53/runtime:$SLIME_ROOT:$DEPS_ROOT/Megatron-LM:$DEPS_ROOT/MegatronAdaptor:$DEPS_ROOT/TransformerEngineNPU:$DEPS_ROOT/mbridge:$DEPS_ROOT/sglang/python:${PYTHONPATH:-}"
+export PYTHONPATH="$DEPS_ROOT/slime-ascend/scripts/lib/glm53/runtime:$SLIME_ROOT:$DEPS_ROOT/Megatron-LM:$DEPS_ROOT/MegatronAdaptor:$DEPS_ROOT/TransformerEngineNPU:$DEPS_ROOT/sglang/python:${PYTHONPATH:-}"
 export GLM53_NATIVE_ROOT="$DEPS_ROOT"
 # New native training workers use the validated CANN mHC path; torch remains an A/B override.
 export GLM53_MHC_BACKEND="${GLM53_MHC_BACKEND:-ascendc}"
 export GLM53_NATIVE_HC_SHIM SGLANG_NPU_HC_PRE_TAIL_GUARD
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy RAY_ADDRESS
-export no_proxy="localhost,127.0.0.1,$RAY_NODE_IP" NO_PROXY="localhost,127.0.0.1,$RAY_NODE_IP"
+export no_proxy=localhost,127.0.0.1
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 # Keep optional Rust extensions from triggering a toolchain build at startup.
 export SGLANG_RUST_BUILD_MODE=never
@@ -53,7 +61,7 @@ glm53_submit() {
 import os,importlib
 for key in ('CONDA_PREFIX','PYTHONPATH','ASCEND_HOME_PATH','ASCEND_CUSTOM_OPP_PATH','GLOO_SOCKET_IFNAME','HCCL_SOCKET_IFNAME'):
     print(key+'='+os.environ.get(key,''),flush=True)
-for name in ('torch','torch_npu','ray','slime','sglang','megatron','custom_ops'):
+for name in ('torch','torch_npu','numpy','pyarrow','ray','slime','sglang','megatron','custom_ops'):
     m=importlib.import_module(name)
     print(name,getattr(m,'__version__',''),getattr(m,'__file__',''),flush=True)
 print('Environment imports passed',flush=True)
@@ -84,12 +92,12 @@ PY_CHECK
 import os,json
 keys={'PATH','PYTHONPATH','LD_LIBRARY_PATH','LD_PRELOAD','SLIME_ACCELERATOR','SLIME_HOST_IP','CUDA_DEVICE_MAX_CONNECTIONS','USE_LIBUV','no_proxy','NO_PROXY','OMP_NUM_THREADS','TOKENIZERS_PARALLELISM','PYTHONDONTWRITEBYTECODE','PYTHONNOUSERSITE','TORCH_DEVICE_BACKEND_AUTOLOAD','TMPDIR','HF_MODULES_CACHE','TORCH_EXTENSIONS_DIR','TRITON_CACHE_DIR'}
 prefix=('ASCEND','HCCL','GLOO','RAY_','PYTORCH_','SGLANG_','TMS_','DEEPEP_','CANN','ATB','FLA_','GLM53_')
-print(json.dumps({'worker_process_setup_hook':'glm53_ctor_setup_v5.install','env_vars':{k:v for k,v in os.environ.items() if k in keys or k.startswith(prefix)}}))
+print(json.dumps({'env_vars':{k:v for k,v in os.environ.items() if k in keys or k.startswith(prefix)}}))
 PY_ENV
     # Ray workers inherit the head process working directory.
     cd "$SLIME_ROOT"
     setsid "$CONDA_ENV/bin/ray" start --head --block --node-ip-address="$RAY_NODE_IP" --port="$RAY_GCS_PORT" \
-        --dashboard-host=127.0.0.1 --dashboard-port="$RAY_DASHBOARD_PORT" --object-manager-port="$RAY_OBJECT_MANAGER_PORT" --node-manager-port="$RAY_NODE_MANAGER_PORT" --ray-client-server-port="$RAY_CLIENT_SERVER_PORT" --dashboard-agent-grpc-port="$RAY_DASHBOARD_AGENT_GRPC_PORT" --dashboard-agent-listen-port="$RAY_DASHBOARD_AGENT_LISTEN_PORT" --runtime-env-agent-port="$RAY_RUNTIME_ENV_AGENT_PORT" --metrics-export-port="$RAY_METRICS_EXPORT_PORT" --min-worker-port="$RAY_WORKER_MIN_PORT" --max-worker-port="$RAY_WORKER_MAX_PORT" --num-cpus=48 --resources='{"NPU":8}' \
+        --dashboard-host=127.0.0.1 --dashboard-port="$RAY_DASHBOARD_PORT" --object-manager-port="$RAY_OBJECT_MANAGER_PORT" --node-manager-port="$RAY_NODE_MANAGER_PORT" --ray-client-server-port="$RAY_CLIENT_SERVER_PORT" --dashboard-agent-grpc-port="$RAY_DASHBOARD_AGENT_GRPC_PORT" --dashboard-agent-listen-port="$RAY_DASHBOARD_AGENT_LISTEN_PORT" --runtime-env-agent-port="$RAY_RUNTIME_ENV_AGENT_PORT" --metrics-export-port="$RAY_METRICS_EXPORT_PORT" --min-worker-port="$RAY_WORKER_MIN_PORT" --max-worker-port="$RAY_WORKER_MAX_PORT" --num-cpus=48 --resources="{\"NPU\":$GLM53_NUM_NPUS}" \
         --temp-dir="$RAY_TMPDIR" --disable-usage-stats > "$RUN_DIR/ray-start.log" 2>&1 &
     local ray_pid=$!
     trap 'kill -TERM -- -'"$ray_pid"' 2>/dev/null || true; sleep 3; kill -KILL -- -'"$ray_pid"' 2>/dev/null || true' EXIT

@@ -15,24 +15,29 @@ export GLM53_KDA_BWD_HEAD_CHUNK_SIZE=${GLM53_KDA_BWD_HEAD_CHUNK_SIZE:-64}
 # CPU packed boundaries and ViT alignment use the model's existing implementation.
 
 # Ray address on this machine's communication NIC; change when moving hosts.
-RAY_NODE_IP=${RAY_NODE_IP:-197.13.23.1}
+RAY_NODE_IP=${RAY_NODE_IP:-127.0.0.1}
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+GLM53_NUM_NPUS=16
+export ASCEND_RT_VISIBLE_DEVICES=${ASCEND_RT_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 source "${SCRIPT_DIR}/../runtime/lh-ascend-runtime.sh"
 
 export HCCL_EXEC_TIMEOUT=3600 HCCL_CONNECT_TIMEOUT=3600 ACL_DEVICE_SYNC_TIMEOUT=3600
 
-HF_CHECKPOINT=/mnt/weight/GLM-5.3-moe16_geo3k/glm53_geo3k_sft/iter_0000400_bf16
-PROMPT_DATA=/mnt/share/r30009656/dataset/glm53_rl/train.jsonl
+HF_CHECKPOINT=${HF_CHECKPOINT:?Set HF_CHECKPOINT to the HF model directory}
+PROMPT_DATA=${PROMPT_DATA:?Set PROMPT_DATA to the JSONL dataset}
 EXPERIMENT_NAME=glm53_geo3k
 NUM_ROLLOUT=${NUM_ROLLOUT:-100}
-RM_TYPE=math
+RM_TYPE=${RM_TYPE:-deepscaler}
 CP_SIZE=1
 
 # Prompt limit includes the chat template. Total context capacity includes prompt and response.
-ROLLOUT_MAX_RESPONSE_LEN=2048
-ROLLOUT_MAX_PROMPT_LEN=1024
-MAX_CONTEXT_LEN=4096
+ROLLOUT_MAX_RESPONSE_LEN=${ROLLOUT_MAX_RESPONSE_LEN:-2048}
+ROLLOUT_MAX_PROMPT_LEN=${ROLLOUT_MAX_PROMPT_LEN:-1024}
+MAX_CONTEXT_LEN=${MAX_CONTEXT_LEN:-4096}
+ROLLOUT_BATCH_SIZE=${ROLLOUT_BATCH_SIZE:-8}
+N_SAMPLES_PER_PROMPT=${N_SAMPLES_PER_PROMPT:-8}
+GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-$((ROLLOUT_BATCH_SIZE * N_SAMPLES_PER_PROMPT))}
 
 # Model architecture (top16 checkpoint).
 MODEL_ARGS=(
@@ -91,21 +96,21 @@ PY_CHUNKS
 
 # Rollout, optimizer, parallelism and SGLang settings.
 ARGS=(
-    --actor-num-nodes 1 --actor-num-gpus-per-node 8 --colocate
+    --actor-num-nodes 1 --actor-num-gpus-per-node 16 --num-gpus-per-node 16 --colocate
     --train-env-vars "$TRAIN_ENV_JSON"
     "${MODEL_ARGS[@]}"
     --hf-checkpoint "$HF_CHECKPOINT" --load "$HF_CHECKPOINT" --megatron-to-hf-mode raw
     --prompt-data "$PROMPT_DATA" --input-key prompt --label-key label --apply-chat-template
     --multimodal-keys '{"image":"images"}'
     --rm-type "${RM_TYPE:-deepscaler}" --seed 522
-    --num-rollout "${NUM_ROLLOUT:-2}" --rollout-batch-size 8 --n-samples-per-prompt 8
-    --global-batch-size 64 --micro-batch-size 1
+    --num-rollout "${NUM_ROLLOUT:-2}" --rollout-batch-size "$ROLLOUT_BATCH_SIZE" --n-samples-per-prompt "$N_SAMPLES_PER_PROMPT"
+    --global-batch-size "$GLOBAL_BATCH_SIZE" --micro-batch-size 1
     --rollout-max-response-len "$ROLLOUT_MAX_RESPONSE_LEN" --rollout-temperature 1 --rollout-top-p 1
     --rollout-max-prompt-len "$ROLLOUT_MAX_PROMPT_LEN" --rollout-max-context-len "$MAX_CONTEXT_LEN"
     --advantage-estimator grpo --pg-loss-type reinforce
     --tensor-model-parallel-size 1 --pipeline-model-parallel-size 4
     --decoder-first-pipeline-num-layers 12 --decoder-last-pipeline-num-layers 11
-    --context-parallel-size "${CP_SIZE:-1}" --expert-model-parallel-size 2 --expert-tensor-parallel-size 1
+    --context-parallel-size "${CP_SIZE:-1}" --expert-model-parallel-size 4 --expert-tensor-parallel-size 1
     --allgather-cp --moe-token-dispatcher-type alltoall
     --recompute-granularity full --recompute-method uniform --recompute-num-layers 1
     --seq-length "$MAX_CONTEXT_LEN" --max-position-embeddings "$MAX_CONTEXT_LEN"
@@ -116,8 +121,8 @@ ARGS=(
     --no-load-optim --no-load-rng --no-save-optim --freeze-params-name-list 'model.visual.*'
     --optimizer-cpu-offload --use-precision-aware-optimizer
     --overlap-cpu-optimizer-d2h-h2d
-    --rollout-num-gpus-per-engine 8
-    --sglang-device npu --sglang-attention-backend ascend --sglang-tp-size 8
+    --rollout-num-gpus-per-engine 16
+    --sglang-device npu --sglang-attention-backend ascend --sglang-tp-size 16
     --sglang-dp-size 1 --sglang-ep-size 1
     # Keep each image encoder unsharded to match training ViT numerics.
     --sglang-mm-enable-dp-encoder
